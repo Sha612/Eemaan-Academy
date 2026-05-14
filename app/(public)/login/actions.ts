@@ -28,7 +28,7 @@ export async function loginAction(
         return { error: "Email and password are required" }
     }
 // 🔴 TEMP: Replace with DB later
-    if (email !== "nasir@gmail.com" || password !== "eFSICp*0xHFS") {
+    if (email !== "nasir@gmail.com" || password !== "admin1") {
         return { error: "Invalid email or password" }
     }
 
