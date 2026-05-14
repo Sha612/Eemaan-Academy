@@ -1,0 +1,32 @@
+[
+  {
+    "id": "05e2ed89-29f0-4e8c-b457-3ccf78ad3133",
+    "name": "Naasir Ali",
+    "email": "nasir@gmail.com",
+    "passwordHash": "$2b$10$oCuoXVwzAd9o.biPUVZywufuve9oEpuzKQjNPYMVnX7y5VN0K4s42",
+    "role": "HEAD_TEACHER",
+    "status": "ACTIVE",
+    "mustChangePassword": true,
+    "createdAt": "2026-05-11T18:22:47.310Z"
+  },
+  {
+    "id": "87837c75-abc4-471f-aad4-a6ce07d3b282",
+    "name": "Naasir Ali",
+    "email": "nasir1@gmail.com",
+    "passwordHash": "$2b$10$eJwwKXM/7cRHQ4ubRy5Bp.5FqqpsvcbHsi9fcDnfduRlsegUybiLi",
+    "role": "ADMIN",
+    "status": "ACTIVE",
+    "mustChangePassword": true,
+    "createdAt": "2026-05-11T18:28:14.483Z"
+  },
+  {
+    "id": "b7b0331d-95ff-442e-a9cf-7cd34c6cf1df",
+    "name": "sam",
+    "email": "sam@gmail.com",
+    "passwordHash": "$2b$10$F8dsU9w.FImye0NkNmeh2eMEarOrTLy46mp3hP3xe5OoN1H.lVZSW",
+    "role": "ADMIN",
+    "status": "ACTIVE",
+    "mustChangePassword": true,
+    "createdAt": "2026-05-13T16:10:56.956Z"
+  }
+]
