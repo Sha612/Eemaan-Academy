@@ -6,6 +6,7 @@
 import {
   LayoutDashboard,
   Users,
+  Megaphone,
   BookOpen,
   ClipboardCheck,
   GraduationCap,
@@ -83,6 +84,12 @@ export const adminNavItems = [
         permission: Permission.ASSIGN_STUDENTS,
       }
     ],
+  },
+  {
+    title: "Announcements",
+    href: "/admin/announcements",
+    icon: Megaphone,
+     permission: Permission.MANAGE_SETTINGS,
   },
   {
     title: "Replacement Access",

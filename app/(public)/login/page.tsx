@@ -2,8 +2,6 @@
 
 import { useActionState } from "react"
 import { loginAction } from "./actions"
-
-import { useRouter } from "next/navigation"
 import Image from "next/image"
 
 const initialState = {
@@ -30,15 +28,16 @@ export default function LoginPage() {
             <div className="relative w-full max-w-xl">
               <div className="rounded-[2rem] border border-white/15 bg-white p-4 shadow-2xl shadow-black/25">
                 <Image
-                  src="/eemaanFoundationIcon2.png"
+                  src="/eemaan logo2.svg"
                   alt="Eemaan Foundation Banner"
                   width={1491}
                   height={209}
                   priority
                   className="h-auto w-full rounded-3xl object-contain"
+                  
                 />
               </div>
-
+              
               <div className="mt-8 rounded-[2rem] border border-white/15 bg-white/10 p-7 shadow-xl shadow-black/20 backdrop-blur-md">
                 <p className="mb-3 inline-flex rounded-full border border-[#d6c26b]/40 bg-[#d6c26b]/15 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#f7f4e8]">
                   Quran Institute

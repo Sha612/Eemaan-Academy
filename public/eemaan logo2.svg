@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 903.98 281.57">
+  <defs>
+    <style>
+      .cls-1, .cls-2 {
+        fill: #a58a30;
+      }
+
+      .cls-1, .cls-3 {
+        stroke-width: 0px;
+      }
+
+      .cls-4 {
+        fill: #231f20;
+        font-family: HelveticaNeue-Thin, 'Helvetica Neue';
+        font-size: 53px;
+        font-weight: 200;
+      }
+
+      .cls-5 {
+        letter-spacing: -.01em;
+      }
+
+      .cls-6 {
+        letter-spacing: 0em;
+      }
+
+      .cls-7 {
+        fill: #64481c;
+      }
+
+      .cls-7, .cls-2 {
+        font-family: Helvetica, Helvetica;
+        font-size: 106.4px;
+      }
+
+      .cls-8 {
+        letter-spacing: -.05em;
+      }
+
+      .cls-3 {
+        fill: #545b28;
+      }
+
+      .cls-9 {
+        stroke-width: 7px;
+      }
+
+      .cls-9, .cls-10, .cls-11 {
+        fill: none;
+        stroke: #64481c;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-10 {
+        stroke-width: 2px;
+      }
+
+      .cls-11 {
+        stroke-width: 4px;
+      }
+    </style>
+  </defs>
+  <polygon class="cls-1" points="116.43 102.67 116.43 161.76 131.54 151.73 146.36 161.76 146.36 102.67 116.43 102.67"/>
+  <path class="cls-9" d="M333.76,23.86H81.58C42.06,25.27,9.36,54.87,4.2,92.64c-5.5,40.3,21.75,79.64,63.05,88.84h266.51"/>
+  <line class="cls-11" x1="64.02" y1="102.67" x2="306.1" y2="102.67"/>
+  <rect class="cls-3" x="116.43" y="55.62" width="29.93" height="26.63"/>
+  <path class="cls-10" d="M330.56,41.23H94.32c-37.02,1.12-67.65,24.57-72.48,54.5-5.15,31.94,20.38,63.11,59.06,70.4h249.66"/>
+  <text class="cls-7" transform="translate(353.11 91.36) scale(1.23 1)"><tspan x="0" y="0">EEMAAN</tspan></text>
+  <text class="cls-2" transform="translate(350.59 187.83) scale(.99 1)"><tspan x="0" y="0">INSTITUTE</tspan></text>
+  <text class="cls-4" transform="translate(59.15 264.82)"><tspan x="0" y="0">Empowering Th</tspan><tspan class="cls-5" x="343.97" y="0">r</tspan><tspan class="cls-6" x="358.06" y="0">ough Islamic </tspan><tspan class="cls-8" x="647.97" y="0">V</tspan><tspan x="674.9" y="0">alues</tspan></text>
+</svg>

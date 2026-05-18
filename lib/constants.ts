@@ -266,3 +266,36 @@ export type AttendanceStatus =
     inactiveClass: "border-zinc-200 bg-white text-zinc-700 hover:bg-zinc-50",
   },
 ]
+
+export const announcements = [
+  {
+    id: "1",
+    title: "Quran class schedule update",
+    message: "Hifz 1 class will start 30 minutes earlier this Friday.",
+    type: "Class-specific",
+    audience: "Hifz 1",
+    priority: "Important",
+    date: "17 May 2026",
+    status: "Published",
+  },
+  {
+    id: "2",
+    title: "Monthly teacher meeting",
+    message: "All teachers are requested to attend the monthly review meeting.",
+    type: "Teacher-only",
+    audience: "Teachers",
+    priority: "Normal",
+    date: "16 May 2026",
+    status: "Published",
+  },
+  {
+    id: "3",
+    title: "Institute holiday notice",
+    message: "The institute will be closed for the public holiday.",
+    type: "School-wide",
+    audience: "All users",
+    priority: "Urgent",
+    date: "15 May 2026",
+    status: "Published",
+  },
+]

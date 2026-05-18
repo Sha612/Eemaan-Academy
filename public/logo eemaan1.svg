@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 805.72 810.04">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 5px;
+      }
+
+      .cls-1, .cls-2, .cls-3 {
+        fill: none;
+        stroke: #64481c;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-4, .cls-5 {
+        fill: #a58a30;
+      }
+
+      .cls-4, .cls-6 {
+        stroke-width: 0px;
+      }
+
+      .cls-5, .cls-7 {
+        font-family: Helvetica, Helvetica;
+        font-size: 154.77px;
+      }
+
+      .cls-2 {
+        stroke-width: 3px;
+      }
+
+      .cls-7 {
+        fill: #64481c;
+      }
+
+      .cls-6 {
+        fill: #545b28;
+      }
+
+      .cls-3 {
+        stroke-width: 9px;
+      }
+    </style>
+  </defs>
+  <polygon class="cls-4" points="270.02 187.98 270.02 325.56 305.18 302.2 339.71 325.56 339.71 187.98 270.02 187.98"/>
+  <path class="cls-3" d="M776.01,4.5H188.87C96.85,7.78,20.73,76.69,8.73,164.63c-12.81,93.83,50.65,185.43,146.78,206.83h620.5"/>
+  <line class="cls-1" x1="147.98" y1="187.98" x2="711.6" y2="187.98"/>
+  <rect class="cls-6" x="270.02" y="78.45" width="69.69" height="62"/>
+  <path class="cls-2" d="M768.55,44.94H218.54c-86.2,2.6-157.5,57.2-168.75,126.89-12,74.35,47.45,146.94,137.5,163.9h581.26"/>
+  <text class="cls-7" transform="translate(4.44 565.37) scale(1.23 1)"><tspan x="0" y="0">EEMAAN</tspan></text>
+  <text class="cls-5" transform="translate(0 735.6) scale(.99 1)"><tspan x="0" y="0">INSTITUTE</tspan></text>
+</svg>

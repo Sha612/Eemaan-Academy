@@ -37,14 +37,14 @@ export function AppSidebar({ user }: AppSidebarProps) {
         <div className="flex h-full flex-col  border border-[#ddd4aa]/70 bg-[#fbfaf4] shadow-sm">
         <SidebarHeader className="pt-6 px-2">
           <div className="flex items-center gap-3">
-            <div className="flex aspect-square size-9 items-center justify-center overflow-hidden rounded-lg shrink-0">
-              <Image src="/eemaanFoundationIcon.jpg" alt="Logo" width={40} height={40} className="object-cover"/>
+            <div className="flex aspect-square size-8 items-center justify-center overflow-hidden rounded-lg shrink-0">
+              <Image src="/eemaanonlylogo.png" alt="Logo" width={50} height={40} className="object-cover"/>
             </div>
             <div className={cn(
                 "flex flex-col transition-all duration-300 overflow-hidden",
                 state === "collapsed" ? "w-0 opacity-0" : "w-auto opacity-100" )} >
               <span className="font-bold text-sm whitespace-nowrap">
-                Eemaan Academy
+                Eemaan Institute
               </span>
               <span className="text-[10px] text-muted-foreground whitespace-nowrap">
                 School Management
