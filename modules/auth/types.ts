@@ -1,6 +1,6 @@
 // modules/auth/types.ts
 
-import { Role } from './roles';
+import { Role } from './roles'
 
 export interface User {
   id: number
@@ -9,4 +9,15 @@ export interface User {
   isActive: boolean
   createdAt: string
   updatedAt: string
+}
+
+export type LoginUser = {
+  id: number
+  email: string
+  role: Role
+}
+
+export type LoginResponse = {
+  accessToken: string
+  user: LoginUser
 }
