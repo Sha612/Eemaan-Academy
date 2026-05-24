@@ -9,7 +9,7 @@ type LoginState = {
   error: string
 }
 
-const API_URL = process.env.NEST_API_URL ?? 'http://localhost:4000'
+const API_URL = process.env.NEST_API_URL
 
 function getDashboardPath(role: Role) {
   if (role === Role.ADMIN) return '/admin'
