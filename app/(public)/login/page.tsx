@@ -7,6 +7,8 @@ import Image from 'next/image';
 const initialState: { error: string } = {
   error: '',
 }
+export const dynamic = "force-dynamic"
+export const revalidate = 0
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(
