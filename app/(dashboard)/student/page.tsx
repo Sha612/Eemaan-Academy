@@ -9,10 +9,10 @@ export default function StudentPage() {
         </h1>
 
         <p className="mt-2 text-sm text-[#68654f]">
-          View your enrolled classes, attendance, materials, assignments, grades,
-          and report cards.
+          View your enrolled classes, attendance, materials, assignments,
+          grades, and report cards.
         </p>
       </section>
     </main>
-  )
+  );
 }

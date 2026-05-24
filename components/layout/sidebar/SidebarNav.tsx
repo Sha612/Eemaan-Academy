@@ -1,12 +1,12 @@
-"use client"
+'use client';
 
-import { SidebarMenu } from "@/components/ui/sidebar"
-import { SidebarNavItem } from "./SidebarNavItem"
-import type { NavItem } from "@/lib/navigation"
+import { SidebarMenu } from '@/components/ui/sidebar';
+import { SidebarNavItem } from './SidebarNavItem';
+import type { NavItem } from '@/lib/navigation';
 
 type SidebarNavProps = {
-  items: NavItem[]
-}
+  items: NavItem[];
+};
 
 export function SidebarNav({ items }: SidebarNavProps) {
   return (
@@ -15,5 +15,5 @@ export function SidebarNav({ items }: SidebarNavProps) {
         <SidebarNavItem key={item.title} item={item} />
       ))}
     </SidebarMenu>
-  )
+  );
 }

@@ -1,4 +1,4 @@
-import Link from "next/link"
+import Link from 'next/link';
 import {
   AlertTriangle,
   Bell,
@@ -14,201 +14,201 @@ import {
   UserCog,
   UserPlus,
   Users,
-} from "lucide-react"
+} from 'lucide-react';
 
 export const metadata = {
-  title: "Admin Dashboard | Eemaan Academy",
-}
+  title: 'Admin Dashboard | Eemaan Academy',
+};
 
 type Stat = {
-  label: string
-  value: string
-  description: string
-  icon: React.ElementType
-  iconBg: string
-}
+  label: string;
+  value: string;
+  description: string;
+  icon: React.ElementType;
+  iconBg: string;
+};
 
 type QuickAction = {
-  label: string
-  description: string
-  href: string
-  icon: React.ElementType
-  iconBg: string
-}
+  label: string;
+  description: string;
+  href: string;
+  icon: React.ElementType;
+  iconBg: string;
+};
 
 type Activity = {
-  title: string
-  description: string
-  time: string
-  status: "success" | "warning" | "info"
-}
+  title: string;
+  description: string;
+  time: string;
+  status: 'success' | 'warning' | 'info';
+};
 
 type TodayClass = {
-  className: string
-  subject: string
-  teacher: string
-  attendanceStatus: "Marked" | "Pending" | "Replacement Active"
-  time: string
-}
+  className: string;
+  subject: string;
+  teacher: string;
+  attendanceStatus: 'Marked' | 'Pending' | 'Replacement Active';
+  time: string;
+};
 
 type ReplacementAccess = {
-  teacher: string
-  className: string
-  access: string
-  expires: string
-  status: "Active" | "Pending"
-}
+  teacher: string;
+  className: string;
+  access: string;
+  expires: string;
+  status: 'Active' | 'Pending';
+};
 
 export default function AdminDashboardPage() {
   const stats: Stat[] = [
     {
-      label: "Total Students",
-      value: "245",
-      description: "+12 students added this month",
+      label: 'Total Students',
+      value: '245',
+      description: '+12 students added this month',
       icon: Users,
-      iconBg: "bg-emerald-600",
+      iconBg: 'bg-emerald-600',
     },
     {
-      label: "Active Teachers",
-      value: "18",
-      description: "2 replacement teachers today",
+      label: 'Active Teachers',
+      value: '18',
+      description: '2 replacement teachers today',
       icon: GraduationCap,
-      iconBg: "bg-blue-600",
+      iconBg: 'bg-blue-600',
     },
     {
-      label: "Classes Today",
-      value: "9",
-      description: "7 completed, 2 still running",
+      label: 'Classes Today',
+      value: '9',
+      description: '7 completed, 2 still running',
       icon: BookOpen,
-      iconBg: "bg-purple-600",
+      iconBg: 'bg-purple-600',
     },
     {
-      label: "Pending Actions",
-      value: "5",
-      description: "Require admin review",
+      label: 'Pending Actions',
+      value: '5',
+      description: 'Require admin review',
       icon: AlertTriangle,
-      iconBg: "bg-amber-600",
+      iconBg: 'bg-amber-600',
     },
-  ]
+  ];
 
   const quickActions: QuickAction[] = [
     {
-      label: "Create User Account",
-      description: "Add admin, teacher, student, or parent login",
-      href: "/admin/users/new",
+      label: 'Create User Account',
+      description: 'Add admin, teacher, student, or parent login',
+      href: '/admin/users/new',
       icon: UserCog,
-      iconBg: "bg-slate-700",
+      iconBg: 'bg-slate-700',
     },
     {
-      label: "Add Student",
-      description: "Register a new student",
-      href: "/admin/students/new",
+      label: 'Add Student',
+      description: 'Register a new student',
+      href: '/admin/students/new',
       icon: UserPlus,
-      iconBg: "bg-emerald-600",
+      iconBg: 'bg-emerald-600',
     },
     {
-      label: "Add Teacher",
-      description: "Create a teacher profile",
-      href: "/admin/teachers/new",
+      label: 'Add Teacher',
+      description: 'Create a teacher profile',
+      href: '/admin/teachers/new',
       icon: UserCheck,
-      iconBg: "bg-blue-600",
+      iconBg: 'bg-blue-600',
     },
     {
-      label: "Create Class",
-      description: "Set up a new class or subject group",
-      href: "/admin/classes/new",
+      label: 'Create Class',
+      description: 'Set up a new class or subject group',
+      href: '/admin/classes/new',
       icon: FolderPlus,
-      iconBg: "bg-purple-600",
+      iconBg: 'bg-purple-600',
     },
     {
-      label: "Assign Teacher",
-      description: "Assign a teacher to a class",
-      href: "/admin/classes/assign-teacher",
+      label: 'Assign Teacher',
+      description: 'Assign a teacher to a class',
+      href: '/admin/classes/assign-teacher',
       icon: ShieldCheck,
-      iconBg: "bg-indigo-600",
+      iconBg: 'bg-indigo-600',
     },
     {
-      label: "Grant Replacement Access",
-      description: "Allow temporary class access",
-      href: "/admin/replacements",
+      label: 'Grant Replacement Access',
+      description: 'Allow temporary class access',
+      href: '/admin/replacements',
       icon: CalendarDays,
-      iconBg: "bg-amber-600",
+      iconBg: 'bg-amber-600',
     },
-  ]
+  ];
 
   const todaysClasses: TodayClass[] = [
     {
-      className: "Class 5A",
-      subject: "Quran Recitation",
-      teacher: "Ustadh Ibrahim",
-      attendanceStatus: "Marked",
-      time: "08:30 - 09:30",
+      className: 'Class 5A',
+      subject: 'Quran Recitation',
+      teacher: 'Ustadh Ibrahim',
+      attendanceStatus: 'Marked',
+      time: '08:30 - 09:30',
     },
     {
-      className: "Class 3B",
-      subject: "Islamic Studies",
-      teacher: "Ustadha Aisha",
-      attendanceStatus: "Pending",
-      time: "09:45 - 10:45",
+      className: 'Class 3B',
+      subject: 'Islamic Studies',
+      teacher: 'Ustadha Aisha',
+      attendanceStatus: 'Pending',
+      time: '09:45 - 10:45',
     },
     {
-      className: "Class 4A",
-      subject: "Arabic",
-      teacher: "Replacement: Ustadh Omar",
-      attendanceStatus: "Replacement Active",
-      time: "11:00 - 12:00",
+      className: 'Class 4A',
+      subject: 'Arabic',
+      teacher: 'Replacement: Ustadh Omar',
+      attendanceStatus: 'Replacement Active',
+      time: '11:00 - 12:00',
     },
-  ]
+  ];
 
   const replacementAccess: ReplacementAccess[] = [
     {
-      teacher: "Ustadh Omar",
-      className: "Class 4A - Arabic",
-      access: "Attendance + homework view",
-      expires: "Today, 12:30 PM",
-      status: "Active",
+      teacher: 'Ustadh Omar',
+      className: 'Class 4A - Arabic',
+      access: 'Attendance + homework view',
+      expires: 'Today, 12:30 PM',
+      status: 'Active',
     },
     {
-      teacher: "Ustadha Maryam",
-      className: "Class 2B - Quran",
-      access: "Attendance only",
-      expires: "Awaiting approval",
-      status: "Pending",
+      teacher: 'Ustadha Maryam',
+      className: 'Class 2B - Quran',
+      access: 'Attendance only',
+      expires: 'Awaiting approval',
+      status: 'Pending',
     },
-  ]
+  ];
 
   const recentActivities: Activity[] = [
     {
-      title: "New student enrolled",
-      description: "Ahmed Khan was added to Class 5A",
-      time: "2 hours ago",
-      status: "success",
+      title: 'New student enrolled',
+      description: 'Ahmed Khan was added to Class 5A',
+      time: '2 hours ago',
+      status: 'success',
     },
     {
-      title: "Attendance marked",
-      description: "Class 5A - Quran Recitation attendance completed",
-      time: "3 hours ago",
-      status: "success",
+      title: 'Attendance marked',
+      description: 'Class 5A - Quran Recitation attendance completed',
+      time: '3 hours ago',
+      status: 'success',
     },
     {
-      title: "Replacement teacher access granted",
-      description: "Ustadh Omar received temporary access to Class 4A",
-      time: "4 hours ago",
-      status: "info",
+      title: 'Replacement teacher access granted',
+      description: 'Ustadh Omar received temporary access to Class 4A',
+      time: '4 hours ago',
+      status: 'info',
     },
     {
-      title: "Attendance pending",
-      description: "Class 3B - Islamic Studies still needs attendance",
-      time: "Today",
-      status: "warning",
+      title: 'Attendance pending',
+      description: 'Class 3B - Islamic Studies still needs attendance',
+      time: 'Today',
+      status: 'warning',
     },
     {
-      title: "Report cards pending review",
-      description: "Class 4B report cards need admin review",
-      time: "Yesterday",
-      status: "warning",
+      title: 'Report cards pending review',
+      description: 'Class 4B report cards need admin review',
+      time: 'Yesterday',
+      status: 'warning',
     },
-  ]
+  ];
 
   return (
     <main className="space-y-6 p-6">
@@ -249,7 +249,7 @@ export default function AdminDashboardPage() {
       {/* Stats */}
       <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
         {stats.map((stat) => {
-          const Icon = stat.icon
+          const Icon = stat.icon;
 
           return (
             <div
@@ -274,7 +274,7 @@ export default function AdminDashboardPage() {
                 </div>
               </div>
             </div>
-          )
+          );
         })}
       </section>
 
@@ -293,7 +293,7 @@ export default function AdminDashboardPage() {
 
           <div className="space-y-3">
             {quickActions.map((action) => {
-              const Icon = action.icon
+              const Icon = action.icon;
 
               return (
                 <Link
@@ -314,7 +314,7 @@ export default function AdminDashboardPage() {
                     </p>
                   </div>
                 </Link>
-              )
+              );
             })}
           </div>
         </div>
@@ -364,11 +364,11 @@ export default function AdminDashboardPage() {
                 <div>
                   <span
                     className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${
-                      classItem.attendanceStatus === "Marked"
-                        ? "bg-emerald-50 text-emerald-700"
-                        : classItem.attendanceStatus === "Pending"
-                          ? "bg-amber-50 text-amber-700"
-                          : "bg-blue-50 text-blue-700"
+                      classItem.attendanceStatus === 'Marked'
+                        ? 'bg-emerald-50 text-emerald-700'
+                        : classItem.attendanceStatus === 'Pending'
+                          ? 'bg-amber-50 text-amber-700'
+                          : 'bg-blue-50 text-blue-700'
                     }`}
                   >
                     {classItem.attendanceStatus}
@@ -450,9 +450,9 @@ export default function AdminDashboardPage() {
                   <div className="text-left md:text-right">
                     <span
                       className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${
-                        item.status === "Active"
-                          ? "bg-emerald-50 text-emerald-700"
-                          : "bg-amber-50 text-amber-700"
+                        item.status === 'Active'
+                          ? 'bg-emerald-50 text-emerald-700'
+                          : 'bg-amber-50 text-amber-700'
                       }`}
                     >
                       {item.status}
@@ -489,11 +489,11 @@ export default function AdminDashboardPage() {
               >
                 <div
                   className={`mt-1 h-2.5 w-2.5 rounded-full ${
-                    activity.status === "success"
-                      ? "bg-emerald-500"
-                      : activity.status === "warning"
-                        ? "bg-amber-500"
-                        : "bg-blue-500"
+                    activity.status === 'success'
+                      ? 'bg-emerald-500'
+                      : activity.status === 'warning'
+                        ? 'bg-amber-500'
+                        : 'bg-blue-500'
                   }`}
                 />
 
@@ -504,9 +504,7 @@ export default function AdminDashboardPage() {
                   <p className="mt-1 text-sm text-gray-500">
                     {activity.description}
                   </p>
-                  <p className="mt-1 text-xs text-gray-400">
-                    {activity.time}
-                  </p>
+                  <p className="mt-1 text-xs text-gray-400">{activity.time}</p>
                 </div>
               </div>
             ))}
@@ -521,9 +519,7 @@ export default function AdminDashboardPage() {
                 <FileText size={20} className="text-white" />
               </div>
               <div>
-                <h2 className="text-lg font-semibold text-gray-950">
-                  Reports
-                </h2>
+                <h2 className="text-lg font-semibold text-gray-950">Reports</h2>
                 <p className="text-sm text-gray-500">Report card progress</p>
               </div>
             </div>
@@ -582,17 +578,11 @@ export default function AdminDashboardPage() {
         </div>
       </section>
     </main>
-  )
+  );
 }
 
-function DashboardProgress({
-  label,
-  value,
-}: {
-  label: string
-  value: string
-}) {
-  const numericValue = Number(value.replace("%", ""))
+function DashboardProgress({ label, value }: { label: string; value: string }) {
+  const numericValue = Number(value.replace('%', ''));
 
   return (
     <div>
@@ -608,5 +598,5 @@ function DashboardProgress({
         />
       </div>
     </div>
-  )
+  );
 }

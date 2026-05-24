@@ -1,13 +1,13 @@
 // components/admin/attendance/AttendanceFooter.tsx
 
-import { Save } from "lucide-react"
+import { Save } from 'lucide-react';
 
 type AttendanceFooterProps = {
-  markedCount: number
-  totalCount: number
-  remainingCount: number
-  onSave: () => void
-}
+  markedCount: number;
+  totalCount: number;
+  remainingCount: number;
+  onSave: () => void;
+};
 
 export function AttendanceFooter({
   markedCount,
@@ -15,7 +15,7 @@ export function AttendanceFooter({
   remainingCount,
   onSave,
 }: AttendanceFooterProps) {
-  const isComplete = markedCount === totalCount
+  const isComplete = markedCount === totalCount;
 
   return (
     <div className="flex flex-col gap-3 rounded-2xl border border-[#ddd4aa]/70 bg-[#f7f3df] px-6 py-4 md:flex-row md:items-center md:justify-between">
@@ -26,11 +26,11 @@ export function AttendanceFooter({
           </span>
         ) : (
           <span>
-            Please mark{" "}
+            Please mark{' '}
             <span className="font-semibold text-[#2f3303]">
               {remainingCount}
-            </span>{" "}
-            more student{remainingCount > 1 ? "s" : ""}.
+            </span>{' '}
+            more student{remainingCount > 1 ? 's' : ''}.
           </span>
         )}
       </p>
@@ -44,5 +44,5 @@ export function AttendanceFooter({
         Save Attendance
       </button>
     </div>
-  )
+  );
 }

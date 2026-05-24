@@ -1,6 +1,6 @@
-import Link from "next/link"
-import { ArrowLeft, BookOpen } from "lucide-react"
-import { createClassAction } from "./actions"
+import Link from 'next/link';
+import { ArrowLeft, BookOpen } from 'lucide-react';
+import { createClassAction } from './actions';
 
 export default function NewClassPage() {
   return (
@@ -44,7 +44,10 @@ export default function NewClassPage() {
           <form action={createClassAction} className="space-y-6">
             <div className="grid gap-5 md:grid-cols-2">
               <div className="space-y-2">
-                <label htmlFor="name" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="name"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Class Name
                 </label>
                 <input
@@ -57,7 +60,10 @@ export default function NewClassPage() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="subject" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="subject"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Subject
                 </label>
                 <input
@@ -70,7 +76,10 @@ export default function NewClassPage() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="level" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="level"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Level
                 </label>
                 <input
@@ -82,7 +91,10 @@ export default function NewClassPage() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="status" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="status"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Status
                 </label>
                 <select
@@ -97,7 +109,10 @@ export default function NewClassPage() {
               </div>
 
               <div className="space-y-2 md:col-span-2">
-                <label htmlFor="description" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="description"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Description
                 </label>
                 <textarea
@@ -129,5 +144,5 @@ export default function NewClassPage() {
         </section>
       </div>
     </main>
-  )
+  );
 }

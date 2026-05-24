@@ -1,10 +1,10 @@
-import { Search } from "lucide-react"
+import { Search } from 'lucide-react';
 
 type TableSectionHeaderProps = {
-  title: string
-  description?: string
-  searchPlaceholder?: string
-}
+  title: string;
+  description?: string;
+  searchPlaceholder?: string;
+};
 
 export function TableSectionHeader({
   title,
@@ -33,5 +33,5 @@ export function TableSectionHeader({
         </div>
       ) : null}
     </div>
-  )
+  );
 }

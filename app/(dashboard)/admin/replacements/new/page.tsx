@@ -1,28 +1,28 @@
-import Link from "next/link"
-import { ArrowLeft, ShieldCheck } from "lucide-react"
-import { readJsonFile } from "@/lib/dev-store"
-import { grantReplacementAccessAction } from "../new/actions"
+import Link from 'next/link';
+import { ArrowLeft, ShieldCheck } from 'lucide-react';
+import { readJsonFile } from '@/lib/dev-store';
+import { grantReplacementAccessAction } from '../new/actions';
 
 type StoredUser = {
-  id: string
-  name: string
-  email: string
-  role: string
-}
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+};
 
 type StoredClass = {
-  id: string
-  name: string
-  subject: string
-}
+  id: string;
+  name: string;
+  subject: string;
+};
 
 export default async function GrantReplacementAccessPage() {
-  const users = await readJsonFile<StoredUser[]>("users.json", [])
-  const classes = await readJsonFile<StoredClass[]>("classes.json", [])
+  const users = await readJsonFile<StoredUser[]>('users.json', []);
+  const classes = await readJsonFile<StoredClass[]>('classes.json', []);
 
   const teachers = users.filter(
-    (user) => user.role === "TEACHER" || user.role === "HEAD_TEACHER"
-  )
+    (user) => user.role === 'TEACHER' || user.role === 'HEAD_TEACHER',
+  );
 
   return (
     <main className="min-h-screen bg-[#f7f4e8] px-6 py-6">
@@ -65,7 +65,10 @@ export default async function GrantReplacementAccessPage() {
           <form action={grantReplacementAccessAction} className="space-y-6">
             <div className="grid gap-5 md:grid-cols-2">
               <div className="space-y-2">
-                <label htmlFor="classId" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="classId"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Class
                 </label>
                 <select
@@ -87,7 +90,10 @@ export default async function GrantReplacementAccessPage() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="teacherId" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="teacherId"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Replacement Teacher
                 </label>
                 <select
@@ -109,7 +115,10 @@ export default async function GrantReplacementAccessPage() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="startDate" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="startDate"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Start Date
                 </label>
                 <input
@@ -122,7 +131,10 @@ export default async function GrantReplacementAccessPage() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="endDate" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="endDate"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   End Date
                 </label>
                 <input
@@ -135,7 +147,10 @@ export default async function GrantReplacementAccessPage() {
               </div>
 
               <div className="space-y-2 md:col-span-2">
-                <label htmlFor="reason" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="reason"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Reason
                 </label>
                 <textarea
@@ -173,5 +188,5 @@ export default async function GrantReplacementAccessPage() {
         </section>
       </div>
     </main>
-  )
+  );
 }

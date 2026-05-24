@@ -6,17 +6,17 @@ import {
   Clock,
   Users,
   XCircle,
-} from "lucide-react"
-import { SummaryCard } from "@/components/admin/attendance/attendanceFunctions"
+} from 'lucide-react';
+import { SummaryCard } from '@/components/admin/attendance/attendanceFunctions';
 
 type AttendanceSummaryGridProps = {
-  totalCount: number
-  presentCount: number
-  absentCount: number
-  lateCount: number
-  markedCount: number
-  progressPercentage: number
-}
+  totalCount: number;
+  presentCount: number;
+  absentCount: number;
+  lateCount: number;
+  markedCount: number;
+  progressPercentage: number;
+};
 
 export function AttendanceSummaryGrid({
   totalCount,
@@ -63,5 +63,5 @@ export function AttendanceSummaryGrid({
         helper={`${progressPercentage}% completed`}
       />
     </section>
-  )
+  );
 }

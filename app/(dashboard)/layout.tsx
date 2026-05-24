@@ -1,26 +1,25 @@
 // ap/(dashboard)/Layout.tsx
-import { cookies } from "next/headers"
-import { SidebarProvider } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/layout/sidebar/AppSidebar"
-import { Navbar } from "@/components/layout/Navbar"
-import { getUserFromToken } from "@/modules/auth/getUser"
+import { cookies } from 'next/headers';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/layout/sidebar/AppSidebar';
+import { Navbar } from '@/components/layout/Navbar';
+import { getUserFromToken } from '@/modules/auth/getUser';
 
 export default async function DashboardLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const token = (await cookies()).get("token")?.value
-  const user = await getUserFromToken(token)
+  const token = (await cookies()).get('token')?.value;
+  const user = await getUserFromToken(token);
 
   if (!user) {
-    return <div>Unauthorized</div>
+    return <div>Unauthorized</div>;
   }
 
   return (
     <SidebarProvider>
       <div className="flex h-screen w-full">
-
         {/* Sidebar */}
         <AppSidebar user={user} />
 
@@ -32,8 +31,7 @@ export default async function DashboardLayout({
             {children}
           </main>
         </div>
-
       </div>
     </SidebarProvider>
-  )
+  );
 }

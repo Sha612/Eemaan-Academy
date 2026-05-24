@@ -1,29 +1,29 @@
-import Link from "next/link"
-import { ArrowLeft, UserCheck } from "lucide-react"
-import { readJsonFile } from "@/lib/dev-store"
-import { assignTeacherAction } from "./actions"
+import Link from 'next/link';
+import { ArrowLeft, UserCheck } from 'lucide-react';
+import { readJsonFile } from '@/lib/dev-store';
+import { assignTeacherAction } from './actions';
 
 type StoredUser = {
-  id: string
-  name: string
-  email: string
-  role: string
-}
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+};
 
 type StoredClass = {
-  id: string
-  name: string
-  subject: string
-  primaryTeacherId: string | null
-}
+  id: string;
+  name: string;
+  subject: string;
+  primaryTeacherId: string | null;
+};
 
 export default async function AssignTeacherPage() {
-  const users = await readJsonFile<StoredUser[]>("users.json", [])
-  const classes = await readJsonFile<StoredClass[]>("classes.json", [])
+  const users = await readJsonFile<StoredUser[]>('users.json', []);
+  const classes = await readJsonFile<StoredClass[]>('classes.json', []);
 
   const teachers = users.filter(
-    (user) => user.role === "TEACHER" || user.role === "HEAD_TEACHER"
-  )
+    (user) => user.role === 'TEACHER' || user.role === 'HEAD_TEACHER',
+  );
 
   return (
     <main className="min-h-screen bg-[#f7f4e8] px-6 py-6">
@@ -66,7 +66,10 @@ export default async function AssignTeacherPage() {
           <form action={assignTeacherAction} className="space-y-6">
             <div className="grid gap-5 md:grid-cols-2">
               <div className="space-y-2">
-                <label htmlFor="classId" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="classId"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Class
                 </label>
                 <select
@@ -88,7 +91,10 @@ export default async function AssignTeacherPage() {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="teacherId" className="text-sm font-medium text-[#2f3303]">
+                <label
+                  htmlFor="teacherId"
+                  className="text-sm font-medium text-[#2f3303]"
+                >
                   Teacher
                 </label>
                 <select
@@ -129,5 +135,5 @@ export default async function AssignTeacherPage() {
         </section>
       </div>
     </main>
-  )
+  );
 }

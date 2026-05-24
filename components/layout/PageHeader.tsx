@@ -1,17 +1,17 @@
-import Link from "next/link"
-import { ArrowLeft, LucideIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
+import Link from 'next/link';
+import { ArrowLeft, LucideIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 type PageHeaderProps = {
-  label?: string
-  title: string
-  description?: string
-  actions?: React.ReactNode
-  className?: string
-  icon?: LucideIcon
-  backHref?: string
-  backLabel?: string
-}
+  label?: string;
+  title: string;
+  description?: string;
+  actions?: React.ReactNode;
+  className?: string;
+  icon?: LucideIcon;
+  backHref?: string;
+  backLabel?: string;
+};
 
 export function PageHeader({
   label,
@@ -21,13 +21,13 @@ export function PageHeader({
   className,
   icon: Icon,
   backHref,
-  backLabel = "Go back",
+  backLabel = 'Go back',
 }: PageHeaderProps) {
   return (
     <section
       className={cn(
-        "flex flex-col gap-4 rounded-2xl border border-[#ddd4aa]/70 bg-[#fbfaf4] p-6 shadow-sm md:flex-row md:items-center md:justify-between",
-        className
+        'flex flex-col gap-4 rounded-2xl border border-[#ddd4aa]/70 bg-[#fbfaf4] p-6 shadow-sm md:flex-row md:items-center md:justify-between',
+        className,
       )}
     >
       <div className="flex min-w-0 items-start gap-3">
@@ -67,5 +67,5 @@ export function PageHeader({
         </div>
       ) : null}
     </section>
-  )
+  );
 }

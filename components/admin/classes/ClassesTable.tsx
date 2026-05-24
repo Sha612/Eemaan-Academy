@@ -1,24 +1,19 @@
-import {
-  BookOpen,
-  MoreHorizontal,
-  UserRoundCheck,
-  Users,
-} from "lucide-react"
+import { BookOpen, MoreHorizontal, UserRoundCheck, Users } from 'lucide-react';
 
 export type ClassItem = {
-  id: string
-  name: string
-  level: string
-  subject: string
-  primaryTeacher: string
-  studentsCount: number
-  schedule: string
-  status: string
-}
+  id: string;
+  name: string;
+  level: string;
+  subject: string;
+  primaryTeacher: string;
+  studentsCount: number;
+  schedule: string;
+  status: string;
+};
 
 type ClassesTableProps = {
-  classes: ClassItem[]
-}
+  classes: ClassItem[];
+};
 
 export function ClassesTable({ classes }: ClassesTableProps) {
   return (
@@ -49,16 +44,12 @@ export function ClassesTable({ classes }: ClassesTableProps) {
                     <p className="font-medium text-[#2f3303]">
                       {classItem.name}
                     </p>
-                    <p className="text-xs text-[#8c876d]">
-                      {classItem.level}
-                    </p>
+                    <p className="text-xs text-[#8c876d]">{classItem.level}</p>
                   </div>
                 </div>
               </td>
 
-              <td className="px-4 py-4 text-[#68654f]">
-                {classItem.subject}
-              </td>
+              <td className="px-4 py-4 text-[#68654f]">{classItem.subject}</td>
 
               <td className="px-4 py-4">
                 <span className="inline-flex items-center gap-1 rounded-full bg-[#f1ead0] px-3 py-1 text-xs font-medium text-[#4b5205]">
@@ -74,9 +65,7 @@ export function ClassesTable({ classes }: ClassesTableProps) {
                 </span>
               </td>
 
-              <td className="px-4 py-4 text-[#68654f]">
-                {classItem.schedule}
-              </td>
+              <td className="px-4 py-4 text-[#68654f]">{classItem.schedule}</td>
 
               <td className="px-4 py-4">
                 <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
@@ -94,5 +83,5 @@ export function ClassesTable({ classes }: ClassesTableProps) {
         </tbody>
       </table>
     </div>
-  )
+  );
 }

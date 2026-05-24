@@ -1,48 +1,48 @@
-"use client"
+'use client';
 
-import { useMemo, useState } from "react"
-import { useSearchParams } from "next/navigation"
-import { ClipboardCheck, Save } from "lucide-react"
+import { useMemo, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import { ClipboardCheck, Save } from 'lucide-react';
 
-import { PageShell } from "@/components/layout/pageShell"
-import { PageHeader } from "@/components/layout/PageHeader"
+import { PageShell } from '@/components/layout/pageShell';
+import { PageHeader } from '@/components/layout/PageHeader';
 
-import { AttendanceDetailsCard } from "@/components/admin/attendance/AttedanceDetailsCard"
-import { SelectedClassCard } from "@/components/admin/attendance/SelectedClassCard"
-import { AttendanceSummaryGrid } from "@/components/admin/attendance/AttendanceSummaryGrid"
-import { StudentAttendanceTable } from "@/components/admin/attendance/StudentAttendanceTable"
-import { AttendanceFooter } from "@/components/admin/attendance/AttendanceFooter"
+import { AttendanceDetailsCard } from '@/components/admin/attendance/AttedanceDetailsCard';
+import { SelectedClassCard } from '@/components/admin/attendance/SelectedClassCard';
+import { AttendanceSummaryGrid } from '@/components/admin/attendance/AttendanceSummaryGrid';
+import { StudentAttendanceTable } from '@/components/admin/attendance/StudentAttendanceTable';
+import { AttendanceFooter } from '@/components/admin/attendance/AttendanceFooter';
 
-import { attendanceClasses,statusOptions, students } from "@/lib/constants"
-import { getAttendanceStats } from "@/lib/attendance/attendance-utils"
+import { attendanceClasses, statusOptions, students } from '@/lib/constants';
+import { getAttendanceStats } from '@/lib/attendance/attendance-utils';
 import type {
   AttendanceRecord,
   AttendanceStatus,
   AttendanceStatusOption,
-} from "@/lib/attendance/attendance-types"
+} from '@/lib/attendance/attendance-types';
 
 export default function AttendancePage() {
-  const searchParams = useSearchParams()
-  const preselectedClass = searchParams.get("class")
+  const searchParams = useSearchParams();
+  const preselectedClass = searchParams.get('class');
 
-  const [selectedClass, setSelectedClass] = useState(preselectedClass || "1")
+  const [selectedClass, setSelectedClass] = useState(preselectedClass || '1');
   const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split("T")[0]
-  )
+    new Date().toISOString().split('T')[0],
+  );
 
-  const [attendance, setAttendance] = useState<AttendanceRecord>({})
+  const [attendance, setAttendance] = useState<AttendanceRecord>({});
 
   const selectedClassDetails = useMemo(() => {
-    return attendanceClasses.find((cls) => cls.id === selectedClass)
-  }, [selectedClass])
+    return attendanceClasses.find((cls) => cls.id === selectedClass);
+  }, [selectedClass]);
 
-  const stats = getAttendanceStats(attendance, students.length)
+  const stats = getAttendanceStats(attendance, students.length);
 
   function updateAttendance(studentId: number, status: AttendanceStatus) {
     setAttendance((prev) => ({
       ...prev,
       [studentId]: prev[studentId] === status ? undefined : status,
-    }))
+    }));
   }
 
   function handleSave() {
@@ -50,13 +50,13 @@ export default function AttendancePage() {
       classId: selectedClass,
       date: selectedDate,
       records: attendance,
-    }
+    };
 
-    console.log("Saving attendance:", payload)
-    alert("Attendance saved successfully!")
+    console.log('Saving attendance:', payload);
+    alert('Attendance saved successfully!');
   }
 
-  const canSave = stats.markedCount === students.length
+  const canSave = stats.markedCount === students.length;
 
   return (
     <PageShell>
@@ -113,5 +113,5 @@ export default function AttendancePage() {
         onSave={handleSave}
       />
     </PageShell>
-  )
+  );
 }

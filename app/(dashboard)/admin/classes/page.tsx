@@ -1,11 +1,11 @@
-import { classes } from "@/lib/constants"
+import { classes } from '@/lib/constants';
 
-import { PageShell } from "@/components/layout/pageShell"
-import { PageHeader } from "@/components/layout/PageHeader"
+import { PageShell } from '@/components/layout/pageShell';
+import { PageHeader } from '@/components/layout/PageHeader';
 
-import { ClassesTableSection } from "@/components/admin/classes/ClassesTableSection"
-import { ClassesStats } from "@/components/admin/classes/ClassesStats"
-import { ClassesActions } from "@/components/admin/classes/ClassesActions"
+import { ClassesTableSection } from '@/components/admin/classes/ClassesTableSection';
+import { ClassesStats } from '@/components/admin/classes/ClassesStats';
+import { ClassesActions } from '@/components/admin/classes/ClassesActions';
 
 export default function AdminClassesPage() {
   return (
@@ -20,7 +20,6 @@ export default function AdminClassesPage() {
       <ClassesStats totalClasses={classes.length} />
 
       <ClassesTableSection classes={classes} />
-      
     </PageShell>
-  )
+  );
 }
