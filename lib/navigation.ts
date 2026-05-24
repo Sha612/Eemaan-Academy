@@ -2,7 +2,7 @@ import type { LucideIcon } from 'lucide-react';
 
 import { Permission } from '../modules/auth/permissions';
 import { hasPermission } from '../modules/auth/rbac';
-import { User } from '@/modules/auth/types';
+import { AuthUser } from '@/modules/auth/getUser'
 
 export type NavChildItem = {
   title: string;
@@ -18,7 +18,7 @@ export type NavItem = {
   children?: NavChildItem[];
 };
 
-export function filterNavItems(items: NavItem[], user?: User): NavItem[] {
+export function filterNavItems(items: NavItem[], user?: AuthUser): NavItem[] {
   if (!user) return [];
 
   return items

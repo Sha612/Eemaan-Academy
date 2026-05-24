@@ -19,9 +19,11 @@ import { filterNavItems } from '@/lib/navigation';
 import { User } from '@/modules/auth/types';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
+import { AuthUser } from '@/modules/auth/getUser'
+
 type AppSidebarProps = {
-  user: User;
-};
+  user: AuthUser
+}
 
 export function AppSidebar({ user }: AppSidebarProps) {
   const { state } = useSidebar();

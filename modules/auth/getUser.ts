@@ -1,22 +1,31 @@
 // modules/auth/getUser.ts
-import { verifyToken } from "./services";
-import { User } from "./types";
-import { Role } from "./roles";
 
-export async function getUserFromToken(
-  token: string | undefined
-): Promise<User | null> {
-  if (!token) return null;
+import { jwtDecode } from 'jwt-decode'
+import { Role } from './roles'
 
-  const payload = await verifyToken(token);
-  if (!payload) return null;
+type JwtPayload = {
+  sub: number
+  role: Role
+  iat: number
+  exp: number
+}
 
-  return {
-    id: Number(payload.id),
-    email: payload.email as string,
-    role: payload.role as Role,
-    isActive: payload.isActive as boolean,
-    createdAt: payload.createdAt as string,
-    updatedAt: payload.updatedAt as string,
-  };
+export type AuthUser = {
+  id: number
+  role: Role
+}
+
+export function getUserFromToken(token?: string): AuthUser | null {
+  if (!token) return null
+
+  try {
+    const decoded = jwtDecode<JwtPayload>(token)
+
+    return {
+      id: decoded.sub,
+      role: decoded.role,
+    }
+  } catch {
+    return null
+  }
 }

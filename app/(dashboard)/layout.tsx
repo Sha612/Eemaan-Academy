@@ -10,8 +10,8 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const token = (await cookies()).get('token')?.value;
-  const user = await getUserFromToken(token);
+  const token = (await cookies()).get('token')?.value
+const user = getUserFromToken(token)
 
   if (!user) {
     return <div>Unauthorized</div>;

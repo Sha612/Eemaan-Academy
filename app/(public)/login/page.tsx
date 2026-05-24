@@ -4,9 +4,9 @@ import { useActionState } from 'react';
 import { loginAction } from './actions';
 import Image from 'next/image';
 
-const initialState = {
+const initialState: { error: string } = {
   error: '',
-};
+}
 
 export default function LoginPage() {
   const [state, formAction, isPending] = useActionState(
