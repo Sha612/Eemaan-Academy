@@ -1,24 +1,5 @@
-import { Megaphone } from 'lucide-react';
-import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import { prisma } from '@/lib/prisma';
-
-async function createAnnouncement(formData: FormData) {
-  'use server';
-
-  await prisma.announcement.create({
-    data: {
-      title: String(formData.get('title')),
-      type: String(formData.get('type')),
-      audience: String(formData.get('classId') || 'All users'),
-      priority: String(formData.get('priority')),
-      message: String(formData.get('message')),
-      status: 'published',
-    },
-  });
-
-  redirect('/admin/announcements');
-}
+import { Megaphone } from "lucide-react"
+import Link from "next/link"
 
 export default function NewAnnouncementPage() {
   return (
@@ -48,7 +29,7 @@ export default function NewAnnouncementPage() {
       </section>
 
       <section className="rounded-2xl border border-[#ddd4aa]/70 bg-white p-6 shadow-sm">
-        <form action={createAnnouncement} className="space-y-5">
+        <form className="space-y-5">
           <div className="grid gap-5 md:grid-cols-2">
             <div className="space-y-2">
               <label className="text-sm font-medium text-[#2f3303]">
@@ -140,5 +121,5 @@ export default function NewAnnouncementPage() {
         </form>
       </section>
     </main>
-  );
+  )
 }
