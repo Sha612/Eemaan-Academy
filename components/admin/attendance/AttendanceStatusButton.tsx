@@ -3,21 +3,21 @@
 import type {
   AttendanceStatus,
   AttendanceStatusOption,
-} from "@/lib/attendance/attendance-types"
+} from '@/lib/attendance/attendance-types';
 
 type AttendanceStatusButtonProps = {
-  option: AttendanceStatusOption
-  selectedStatus?: AttendanceStatus
-  onClick: () => void
-}
+  option: AttendanceStatusOption;
+  selectedStatus?: AttendanceStatus;
+  onClick: () => void;
+};
 
 export function AttendanceStatusButton({
   option,
   selectedStatus,
   onClick,
 }: AttendanceStatusButtonProps) {
-  const Icon = option.icon
-  const isActive = selectedStatus === option.value
+  const Icon = option.icon;
+  const isActive = selectedStatus === option.value;
 
   return (
     <button
@@ -30,5 +30,5 @@ export function AttendanceStatusButton({
       <Icon size={15} />
       {option.label}
     </button>
-  )
+  );
 }

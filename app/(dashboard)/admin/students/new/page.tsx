@@ -45,9 +45,7 @@ export default function AddStudentPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">
-              Gender
-            </label>
+            <label className="text-sm font-medium text-gray-700">Gender</label>
             <select className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none transition focus:border-[#4b5205] focus:ring-2 focus:ring-[#4b5205]/20">
               <option value="">Select gender</option>
               <option value="male">Male</option>
@@ -56,9 +54,7 @@ export default function AddStudentPage() {
           </div>
 
           <div className="space-y-2">
-            <label className="text-sm font-medium text-gray-700">
-              Class
-            </label>
+            <label className="text-sm font-medium text-gray-700">Class</label>
             <select className="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm outline-none transition focus:border-[#4b5205] focus:ring-2 focus:ring-[#4b5205]/20">
               <option value="">Select class</option>
               <option value="class-1">Class 1</option>
@@ -103,9 +99,7 @@ export default function AddStudentPage() {
           </div>
 
           <div className="md:col-span-2 space-y-2">
-            <label className="text-sm font-medium text-gray-700">
-              Address
-            </label>
+            <label className="text-sm font-medium text-gray-700">Address</label>
             <textarea
               placeholder="Enter address"
               rows={4}
@@ -131,5 +125,5 @@ export default function AddStudentPage() {
         </form>
       </section>
     </main>
-  )
+  );
 }

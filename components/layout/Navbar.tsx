@@ -1,17 +1,16 @@
-
-import Link from "next/link"
-import { SidebarTrigger } from "@/components/ui/sidebar"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { ChevronDown, Bell, Search, User} from "lucide-react"
-import { LogoutButton } from "./logoutButton"
+import Link from 'next/link';
+import { SidebarTrigger } from '@/components/ui/sidebar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ChevronDown, Bell, Search, User } from 'lucide-react';
+import { LogoutButton } from './logoutButton';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { logoutAction } from "@/app/(dashboard)/actions"
+} from '@/components/ui/dropdown-menu';
+import { logoutAction } from '@/app/(dashboard)/actions';
 
 export function Navbar() {
   return (
@@ -33,10 +32,13 @@ export function Navbar() {
       </div>
 
       <div className="flex shrink-0 items-center gap-2 sm:gap-4">
-        <button type="button" className="relative rounded-xl p-2 text-[#68654f] transition hover:bg-[#f1ead0] hover:text-[#2f3303]">
+        <button
+          type="button"
+          className="relative rounded-xl p-2 text-[#68654f] transition hover:bg-[#f1ead0] hover:text-[#2f3303]"
+        >
           <Bell size={20} />
           <span className="absolute right-2 top-2 h-2 w-2 rounded-full border-2 border-[#fbfaf4] bg-red-500" />
-        </button> 
+        </button>
         <DropdownMenu>
           <DropdownMenuTrigger className="flex items-center gap-3 border-l border-r border-[#ddd4aa] pl-4 outline-none">
             <div className="hidden text-right sm:block">
@@ -48,11 +50,12 @@ export function Navbar() {
 
             <Avatar className="h-9 w-9">
               <AvatarImage src="" alt="Admin User" />
-              <AvatarFallback className="bg-[#4b5205] text-white"><User size={20} /></AvatarFallback>
+              <AvatarFallback className="bg-[#4b5205] text-white">
+                <User size={20} />
+              </AvatarFallback>
             </Avatar>
 
-            <div className="border-r " ></div>
-            
+            <div className="border-r "></div>
 
             {/* <ChevronDown size={14} className="text-[#68654f]" /> */}
           </DropdownMenuTrigger>
@@ -78,15 +81,13 @@ export function Navbar() {
             <DropdownMenuSeparator />
 
             <DropdownMenuItem>Settings</DropdownMenuItem>
-
-            
           </DropdownMenuContent>
         </DropdownMenu>
 
         <form action={logoutAction}>
-                <LogoutButton />
-              </form>
+          <LogoutButton />
+        </form>
       </div>
     </header>
-  )
+  );
 }

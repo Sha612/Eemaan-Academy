@@ -1,7 +1,7 @@
-//Keep your permissions inside the nav items. 
-// This way, you can easily check permissions when rendering the 
-// sidebar and hide items that the user doesn't have access to. 
-// It also keeps your permission logic centralized and 
+//Keep your permissions inside the nav items.
+// This way, you can easily check permissions when rendering the
+// sidebar and hide items that the user doesn't have access to.
+// It also keeps your permission logic centralized and
 // easier to manage as your application grows.
 import {
   LayoutDashboard,
@@ -13,104 +13,100 @@ import {
   FileText,
   Settings,
   ShieldCheck,
-} from "lucide-react"
+  UserPlus,
+} from 'lucide-react';
 
-import { Permission } from "@/modules/auth/permissions"
+import { Permission } from '@/modules/auth/permissions';
 
 export const adminNavItems = [
   {
-    title: "Dashboard",
-    href: "/admin",
+    title: 'Dashboard',
+    href: '/admin',
     icon: LayoutDashboard,
     permission: Permission.VIEW_DASHBOARD,
   },
   {
-    title: "Students",
+    title: 'Users',
+    href: '/admin/users',
+    icon: Users,
+    children: [
+      {
+        title: 'All Users',
+        href: '/admin/users',
+        permission: Permission.VIEW_USERS,
+      },
+      {
+        title: 'Add New User',
+        href: '/admin/users/new',
+        icon: UserPlus,
+        permission: Permission.CREATE_USER,
+      },
+    ],
+  },
+  {
+    title: 'Students',
     icon: GraduationCap,
     permission: Permission.VIEW_STUDENTS,
-    children: [
-      {
-        title: "All Students",
-        href: "/admin/students",
-        permission: Permission.VIEW_STUDENTS,
-      },
-      {
-        title: "Add Student",
-        href: "/admin/students/new",
-        permission: Permission.CREATE_STUDENT,
-      },
-    ],
   },
   {
-    title: "Teachers",
+    title: 'Teachers',
     icon: Users,
     permission: Permission.VIEW_TEACHERS,
-    children: [
-      {
-        title: "All Teachers",
-        href: "/admin/teachers",
-        permission: Permission.VIEW_TEACHERS,
-      },
-      {
-        title: "Add Teacher",
-        href: "/admin/teachers/new",
-        permission: Permission.CREATE_TEACHER,
-      },
-    ],
+    
   },
   {
-    title: "Classes",
+    title: 'Classes',
     icon: BookOpen,
     permission: Permission.VIEW_CLASSES,
     children: [
       {
-        title: "All Classes",
-        href: "/admin/classes",
+        title: 'All Classes',
+        href: '/admin/classes',
         permission: Permission.VIEW_CLASSES,
       },
       {
-        title: "Create Class",
-        href: "/admin/classes/new",
+        title: 'Create Class',
+        href: '/admin/classes/new',
         permission: Permission.CREATE_CLASS,
       },
       {
-        title: "Assign Teacher",
-        href: "/admin/classes/assign-teacher",
+        title: 'Assign Teacher',
+        href: '/admin/classes/assign-teacher',
         permission: Permission.ASSIGN_TEACHER,
       },
       {
-        title:"Assign Students",
-        href:"/admin/classes/assign-student",
+        title: 'Assign Students',
+        href: '/admin/classes/assign-student',
         permission: Permission.ASSIGN_STUDENTS,
-      }
+      },
     ],
   },
   {
-    title: "Announcements",
-    href: "/admin/announcements",
+    title: 'Announcements',
+    href: '/admin/announcements',
     icon: Megaphone,
-     permission: Permission.MANAGE_SETTINGS,
+    permission: Permission.MANAGE_SETTINGS,
   },
   {
-    title: "Replacement Access",
-    href: "/admin/replacements",
+    title: 'Replacement Access',
+    href: '/admin/replacements',
     icon: ShieldCheck,
   },
   {
-    title: "Attendance",  
+    title: 'Attendance',
     icon: ClipboardCheck,
     permission: Permission.VIEW_ATTENDANCE,
     children: [
       {
-        title: "Attendance Overview",
-        href: "/admin/attendance/overview",
+        title: 'Attendance Overview',
+        href: '/admin/attendance/overview',
         permission: Permission.VIEW_ATTENDANCE,
       },
       {
-        title: "Mark Attendance",
-        href: "/admin/attendance",
+        title: 'Mark Attendance',
+        href: '/admin/attendance',
         permission: Permission.MARK_ATTENDANCE,
       },
     ],
   },
-]
+];

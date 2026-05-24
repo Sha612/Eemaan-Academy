@@ -1,35 +1,35 @@
-import Link from "next/link"
+import Link from 'next/link';
 import {
   Plus,
   Search,
   GraduationCap,
   BookOpen,
   MoreHorizontal,
-} from "lucide-react"
+} from 'lucide-react';
 
 const students = [
   {
-    id: "1",
-    name: "Aisha Muhammad",
-    email: "aisha@example.com",
-    classes: ["Fiqh 1", "Hifz 1"],
-    status: "Active",
+    id: '1',
+    name: 'Aisha Muhammad',
+    email: 'aisha@example.com',
+    classes: ['Fiqh 1', 'Hifz 1'],
+    status: 'Active',
   },
   {
-    id: "2",
-    name: "Yusuf Ahmed",
-    email: "yusuf@example.com",
-    classes: ["Hadeeth 1"],
-    status: "Active",
+    id: '2',
+    name: 'Yusuf Ahmed',
+    email: 'yusuf@example.com',
+    classes: ['Hadeeth 1'],
+    status: 'Active',
   },
   {
-    id: "3",
-    name: "Maryam Ali",
-    email: "maryam@example.com",
-    classes: ["Fiqh 2", "Hifz 2"],
-    status: "Active",
+    id: '3',
+    name: 'Maryam Ali',
+    email: 'maryam@example.com',
+    classes: ['Fiqh 2', 'Hifz 2'],
+    status: 'Active',
   },
-]
+];
 
 export default function AdminStudentsPage() {
   return (
@@ -114,9 +114,7 @@ export default function AdminStudentsPage() {
                     </div>
                   </td>
 
-                  <td className="px-4 py-4 text-[#68654f]">
-                    {student.email}
-                  </td>
+                  <td className="px-4 py-4 text-[#68654f]">{student.email}</td>
 
                   <td className="px-4 py-4">
                     <div className="flex flex-wrap gap-2">
@@ -150,20 +148,14 @@ export default function AdminStudentsPage() {
         </div>
       </section>
     </main>
-  )
+  );
 }
 
-function StatsCard({
-  title,
-  value,
-}: {
-  title: string
-  value: string
-}) {
+function StatsCard({ title, value }: { title: string; value: string }) {
   return (
     <div className="rounded-2xl border border-[#ddd4aa]/70 bg-white p-5 shadow-sm">
       <p className="text-sm font-medium text-[#68654f]">{title}</p>
       <p className="mt-2 text-2xl font-semibold text-[#2f3303]">{value}</p>
     </div>
-  )
+  );
 }

@@ -1,13 +1,13 @@
-"use client"
+'use client';
 
-import Link from "next/link"
-import { ChevronDown } from "lucide-react"
+import Link from 'next/link';
+import { ChevronDown } from 'lucide-react';
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+} from '@/components/ui/collapsible';
 
 import {
   SidebarMenuButton,
@@ -15,9 +15,9 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar"
+} from '@/components/ui/sidebar';
 
-import type { NavItem } from "@/lib/navigation"
+import type { NavItem } from '@/lib/navigation';
 // type NavChild = {
 //   title: string
 //   href: string
@@ -33,11 +33,11 @@ import type { NavItem } from "@/lib/navigation"
 // }
 
 type SidebarNavItemProps = {
-  item: NavItem
-}
+  item: NavItem;
+};
 
 export function SidebarNavItem({ item }: SidebarNavItemProps) {
-  const Icon = item.icon
+  const Icon = item.icon;
 
   if (item.children && item.children.length > 0) {
     return (
@@ -64,17 +64,17 @@ export function SidebarNavItem({ item }: SidebarNavItemProps) {
           </CollapsibleContent>
         </SidebarMenuItem>
       </Collapsible>
-    )
+    );
   }
 
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild>
-        <Link href={item.href ?? "#"}>
+        <Link href={item.href ?? '#'}>
           <Icon className="size-4" />
           <span>{item.title}</span>
         </Link>
       </SidebarMenuButton>
     </SidebarMenuItem>
-  )
+  );
 }

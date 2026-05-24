@@ -1,21 +1,21 @@
 // components/admin/attendance/StudentAttendanceTable.tsx
 
-import { AttendanceStatusButton } from "./AttendanceStatusButton"
-import { getInitials } from "@/lib/attendance/attendance-utils"
+import { AttendanceStatusButton } from './AttendanceStatusButton';
+import { getInitials } from '@/lib/attendance/attendance-utils';
 import type {
   AttendanceRecord,
   AttendanceStatus,
   AttendanceStatusOption,
   Student,
-} from "@/lib/attendance/attendance-types"
+} from '@/lib/attendance/attendance-types';
 
 type StudentAttendanceTableProps = {
-  students: Student[]
-  attendance: AttendanceRecord
-  statusOptions: AttendanceStatusOption[]
-  remainingCount: number
-  onUpdateAttendance: (studentId: number, status: AttendanceStatus) => void
-}
+  students: Student[];
+  attendance: AttendanceRecord;
+  statusOptions: AttendanceStatusOption[];
+  remainingCount: number;
+  onUpdateAttendance: (studentId: number, status: AttendanceStatus) => void;
+};
 
 export function StudentAttendanceTable({
   students,
@@ -38,7 +38,7 @@ export function StudentAttendanceTable({
 
         <div className="rounded-full border border-[#d8d0a7] bg-[#f7f3df] px-4 py-2 text-sm font-medium text-[#4b5205]">
           {remainingCount === 0
-            ? "All students marked"
+            ? 'All students marked'
             : `${remainingCount} remaining`}
         </div>
       </div>
@@ -55,7 +55,7 @@ export function StudentAttendanceTable({
 
           <tbody className="divide-y divide-[#eee7c8]">
             {students.map((student) => {
-              const selectedStatus = attendance[student.id]
+              const selectedStatus = attendance[student.id];
 
               return (
                 <tr key={student.id} className="transition hover:bg-[#fffdf2]">
@@ -95,11 +95,11 @@ export function StudentAttendanceTable({
                     </div>
                   </td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </table>
       </div>
     </section>
-  )
+  );
 }

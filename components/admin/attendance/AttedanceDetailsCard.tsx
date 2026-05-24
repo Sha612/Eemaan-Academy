@@ -1,15 +1,15 @@
 // components/admin/attendance/AttendanceDetailsCard.tsx
 
-import { Calendar } from "lucide-react"
-import type { AttendanceClass } from "@/lib/attendance/attendance-types"
+import { Calendar } from 'lucide-react';
+import type { AttendanceClass } from '@/lib/attendance/attendance-types';
 
 type AttendanceDetailsCardProps = {
-  classes: AttendanceClass[]
-  selectedClass: string
-  selectedDate: string
-  onClassChange: (classId: string) => void
-  onDateChange: (date: string) => void
-}
+  classes: AttendanceClass[];
+  selectedClass: string;
+  selectedDate: string;
+  onClassChange: (classId: string) => void;
+  onDateChange: (date: string) => void;
+};
 
 export function AttendanceDetailsCard({
   classes,
@@ -69,5 +69,5 @@ export function AttendanceDetailsCard({
         </div>
       </div>
     </div>
-  )
+  );
 }

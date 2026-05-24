@@ -1,7 +1,7 @@
-import Link from "next/link"
-import { Plus, Users,GraduationCap } from "lucide-react"
+import Link from 'next/link';
+import { Plus, Users, GraduationCap } from 'lucide-react';
 
-import { buttonStyles } from "@/lib/style"
+import { buttonStyles } from '@/lib/style';
 
 export function ClassesActions() {
   return (
@@ -26,5 +26,5 @@ export function ClassesActions() {
         Create Class
       </Link>
     </>
-  )
+  );
 }

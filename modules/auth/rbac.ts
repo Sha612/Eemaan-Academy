@@ -1,7 +1,7 @@
 // modules/auth/rbac.ts
 
-import { Role } from "./roles"
-import { Permission } from "./permissions"
+import { Role } from './roles';
+import { Permission } from './permissions';
 
 export const rolePermissions: Record<Role, Permission[]> = {
   [Role.ADMIN]: Object.values(Permission),
@@ -23,19 +23,17 @@ export const rolePermissions: Record<Role, Permission[]> = {
     Permission.EDIT_REPORT_CARD,
   ],
 
-  [Role.STUDENT]: [
-    Permission.VIEW_DASHBOARD,
-  ],
-}
+  [Role.STUDENT]: [Permission.VIEW_DASHBOARD],
+};
 
 // modules/auth/rbac.ts
 
 export function hasPermission(
   user: { role: Role } | null | undefined,
-  permission: Permission
+  permission: Permission,
 ) {
-  if (!user) return false
+  if (!user) return false;
 
-  const permissions = rolePermissions[user.role] || []
-  return permissions.includes(permission)
+  const permissions = rolePermissions[user.role] || [];
+  return permissions.includes(permission);
 }
