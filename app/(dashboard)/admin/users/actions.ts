@@ -1,33 +1,30 @@
-"use server"
+'use server';
 
-import { redirect } from "next/navigation"
-import { revalidatePath } from "next/cache"
-import { apiFetch } from "@/lib/api"
+import { redirect } from 'next/navigation';
+import { revalidatePath } from 'next/cache';
+import { getServerApi } from '@/lib/server-api';
 
 export async function updateUserAction(formData: FormData) {
-  const id = String(formData.get("id"))
+  const id = String(formData.get('id'));
 
   const payload = {
-    email: String(formData.get("email")),
-  }
+    email: String(formData.get('email')),
+  };
+  const serverApi = await getServerApi();
 
-  await apiFetch(`/users/${id}`, {
-    method: "PATCH",
-    body: JSON.stringify(payload),
-  })
+  await serverApi.patch(`/users/${id}`, payload);
 
-  redirect("/admin/users")
+  redirect('/admin/users');
 }
 export async function deleteUserAction(formData: FormData) {
-  const id = String(formData.get("id"))
+  const id = String(formData.get('id'));
 
   if (!id) {
-    throw new Error("User ID is required")
+    throw new Error('User ID is required');
   }
 
-  await apiFetch(`/users/${id}`, {
-    method: "DELETE",
-  })
+  const serverApi = await getServerApi();
+  await serverApi.delete(`/users/${id}`);
 
-  revalidatePath("/admin/users")
+  revalidatePath('/admin/users');
 }
