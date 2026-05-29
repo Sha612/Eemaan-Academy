@@ -1,8 +1,6 @@
 // app/api/students/route.ts
 
 import { getUserFromToken } from '@/modules/auth/getUser';
-import { hasPermission } from '@/modules/auth/rbac';
-import { Permission } from '@/modules/auth/permissions';
 import { NextRequest } from 'next/server';
 
 export async function GET(req: NextRequest) {

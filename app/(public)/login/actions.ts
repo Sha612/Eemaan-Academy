@@ -9,7 +9,7 @@ type LoginState = {
   error: string
 }
 
-const API_URL = process.env.NEST_API_URL
+const API_URL = "https://eemaan-foundation-backend-production.up.railway.app"
 
 function getDashboardPath(role: Role) {
   if (role === Role.ADMIN) return '/admin'

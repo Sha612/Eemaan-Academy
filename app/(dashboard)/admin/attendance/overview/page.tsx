@@ -4,12 +4,12 @@ import { PageShell } from '@/components/layout/pageShell';
 import { PageHeader } from '@/components/layout/PageHeader';
 
 import { classAttendance, teacherAttendance } from '@/lib/constants';
-import { AttendanceStats } from '@/components/admin/attendance/attendanceStats';
-import { Alert } from '@/components/admin/alert';
+import { AttendanceStats } from '@/modules/attendance/components/attendanceStats';
+import { Alert } from '@/components/shared/Alert';
 import {
   AttendanceTableSection,
   TeacherAttendanceSection,
-} from '@/components/admin/attendance/attendanceTableSection';
+} from '@/modules/attendance/components/attendanceTableSection';
 
 export default function AdminAttendanceOverviewPage() {
   return (

@@ -1,5 +1,3 @@
-// components/admin/attendance/AttendanceDetailsCard.tsx
-
 import { Calendar } from 'lucide-react';
 import type { AttendanceClass } from '@/lib/attendance/attendance-types';
 

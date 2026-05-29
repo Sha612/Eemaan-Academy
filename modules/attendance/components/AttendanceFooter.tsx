@@ -1,5 +1,3 @@
-// components/admin/attendance/AttendanceFooter.tsx
-
 import { Save } from 'lucide-react';
 
 type AttendanceFooterProps = {

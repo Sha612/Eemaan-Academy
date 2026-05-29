@@ -1,7 +1,6 @@
-import { TableSection } from '@/components/admin/table/TableSection';
-import { TableSectionHeader } from '@/components/admin/table/TableSectionHeader';
+import { TableSection } from '@/components/shared/TableSection';
+import { TableSectionHeader } from '@/components/shared/TableSectionHeader';
 import { AttendanceTable, TeacherAttendanceBadge } from './attendanceTable';
-import { classAttendance, teacherAttendance } from '@/lib/constants';
 import { AttendanceItem, AttendanceTeacherItem } from './attendanceTable';
 
 export function AttendanceTableSection({

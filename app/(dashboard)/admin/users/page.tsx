@@ -1,12 +1,13 @@
 // app/(dashboard)/admin/users/page.tsx
 
-import Link from "next/link"
-import { Pencil, UserX , Trash , Trash2} from "lucide-react"
-import { apiFetch } from "@/lib/api"
-import { User } from "@/modules/auth/types"
+import Link from 'next/link';
+import { Pencil, Trash2 } from 'lucide-react';
+import { apiFetch } from '@/lib/api';
+import { User } from '@/modules/auth/types';
+import { deleteUserAction } from './actions';
 
 export default async function UsersPage() {
-  const users = await apiFetch<User[]>("/users")
+  const users = await apiFetch<User[]>('/users');
 
   return (
     <main className="p-6">
@@ -37,19 +38,17 @@ export default async function UsersPage() {
                     {user.email}
                   </td>
 
-                  <td className="p-4 capitalize text-[#68654f]">
-                    {user.role}
-                  </td>
+                  <td className="p-4 capitalize text-[#68654f]">{user.role}</td>
 
                   <td className="p-4">
                     <span
                       className={`rounded-full px-3 py-1 text-xs font-medium ${
                         user.isActive
-                          ? "bg-green-50 text-green-700"
-                          : "bg-red-50 text-red-700"
+                          ? 'bg-green-50 text-green-700'
+                          : 'bg-red-50 text-red-700'
                       }`}
                     >
-                      {user.isActive ? "Active" : "Inactive"}
+                      {user.isActive ? 'Active' : 'Inactive'}
                     </span>
                   </td>
 
@@ -59,18 +58,21 @@ export default async function UsersPage() {
                         href={`/admin/users/${user.id}/edit`}
                         className="group inline-flex items-center gap-2 rounded-xl border border-[#ddd4aa] bg-[#fbfaf4] px-3 py-2 text-xs font-medium text-[#2f3303] shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#8a7a2f] hover:bg-[#f5f0d7] hover:shadow-md active:translate-y-0"
                       >
-                      <span className="opacity-0 max-w-0 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:max-w-[50px] whitespace-nowrap">
-                        Edit</span>
+                        <span className="opacity-0 max-w-0 transition-all duration-300 ease-in-out group-hover:opacity-100 group-hover:max-w-[50px] whitespace-nowrap">
+                          Edit
+                        </span>
                         <Pencil className="h-4 w-4 transition-transform duration-200 group-hover:rotate-[-8deg] group-hover:scale-110" />
-                        
                       </Link>
-                      <button
-                        type="button"
-                        className="group inline-flex items-center gap-2 rounded-xl  border-red-200 bg-red-50 px-3 py-2 text-xs font-medium text-red-700 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100 hover:shadow-md active:translate-y-0"
-                      >
-                        <Trash2 className="h-4 w-4 transition-transform duration-200 group-hover:rotate-[-8deg] group-hover:animate-bounce group-hover:scale-150" />
-                        
-                      </button>
+
+                      <form action={deleteUserAction}>
+                        <input type="hidden" name="id" value={user.id} />
+                        <button
+                          type="submit"
+                          className="group inline-flex items-center gap-2 rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-xs font-medium text-red-700 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-red-300 hover:bg-red-100 hover:shadow-md active:translate-y-0"
+                        >
+                          <Trash2 className="h-4 w-4 transition-transform duration-200 group-hover:rotate-[-8deg] group-hover:animate-bounce group-hover:scale-150" />
+                        </button>
+                      </form>
                     </div>
                   </td>
                 </tr>
@@ -80,5 +82,5 @@ export default async function UsersPage() {
         </div>
       </section>
     </main>
-  )
+  );
 }

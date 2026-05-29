@@ -1,9 +1,7 @@
-import { TableSection } from '@/components/admin/table/TableSection';
-import { TableSectionHeader } from '@/components/admin/table/TableSectionHeader';
+import { TableSection } from '@/components/shared/TableSection';
+import { TableSectionHeader } from '@/components/shared/TableSectionHeader';
 
-import { ReplacementTable } from '@/components/admin/replacements/ReplacementTable';
-
-import { ReplacementItem } from '@/components/admin/replacements/ReplacementTable';
+import { ReplacementTable,ReplacementItem } from '@/modules/replacements/components/ReplacementTable';
 
 export function ReplacementTableSection({
   replacements,

@@ -1,4 +1,4 @@
-import { StatsCard } from '@/components/admin/statsCard';
+import { StatsCard } from '@/components/shared/StatsCard';
 
 type ClassesStatsProps = {
   totalClasses: number;

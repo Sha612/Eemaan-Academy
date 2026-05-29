@@ -1,9 +1,6 @@
-import { TableSection } from '@/components/admin/table/TableSection';
-import { TableSectionHeader } from '@/components/admin/table/TableSectionHeader';
-
-import { ClassesTable } from '@/components/admin/classes/ClassesTable';
-
-import { ClassItem } from '@/components/admin/classes/ClassesTable';
+import { TableSection } from '@/components/shared/TableSection';
+import { TableSectionHeader } from '@/components/shared/TableSectionHeader';
+import { ClassesTable, ClassItem } from '@/modules/classes/components/ClassesTable';
 
 export function ClassesTableSection({ classes }: { classes: ClassItem[] }) {
   return (
@@ -17,11 +14,4 @@ export function ClassesTableSection({ classes }: { classes: ClassItem[] }) {
       <ClassesTable classes={classes} />
     </TableSection>
   );
-}
-
-{
-  /*
-  
-
-  */
 }

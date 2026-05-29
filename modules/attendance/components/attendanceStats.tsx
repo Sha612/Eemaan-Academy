@@ -1,9 +1,6 @@
-import { StatsCard } from '@/components/admin/statsCard';
+import { StatsCard } from '@/components/shared/StatsCard';
 import { attendanceSummary } from '@/lib/constants';
 
-type AttendanceStatsProps = {
-  totalStudents: number;
-};
 export function AttendanceStats() {
   return (
     <section className="grid gap-4 md:grid-cols-4">

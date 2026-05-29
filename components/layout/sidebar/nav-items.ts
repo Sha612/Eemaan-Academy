@@ -10,8 +10,6 @@ import {
   BookOpen,
   ClipboardCheck,
   GraduationCap,
-  FileText,
-  Settings,
   ShieldCheck,
   UserPlus,
 } from 'lucide-react';
@@ -47,11 +45,13 @@ export const adminNavItems = [
     title: 'Students',
     icon: GraduationCap,
     permission: Permission.VIEW_STUDENTS,
+    href: '/admin/students',
   },
   {
     title: 'Teachers',
     icon: Users,
     permission: Permission.VIEW_TEACHERS,
+    href: '/admin/teachers',
     
   },
   {

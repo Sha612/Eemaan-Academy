@@ -1,6 +1,4 @@
-import Link from 'next/link';
 import {
-  Plus,
   Search,
   UserRoundCheck,
   BookOpen,
@@ -45,14 +43,6 @@ export default function AdminTeachersPage() {
             teaching responsibilities.
           </p>
         </div>
-
-        <Link
-          href="/admin/teachers/new"
-          className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#4b5205] px-4 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#2f3303]"
-        >
-          <Plus size={18} />
-          Add Teacher
-        </Link>
       </section>
 
       <section className="grid gap-4 md:grid-cols-4">

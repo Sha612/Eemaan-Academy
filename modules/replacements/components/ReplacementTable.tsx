@@ -3,7 +3,6 @@ import {
   UserRoundCheck,
   CalendarClock,
   BookOpen,
-  Search,
 } from 'lucide-react';
 
 export type ReplacementItem = {

@@ -3,16 +3,12 @@ import {
   Megaphone,
   Plus,
   Search,
-  School,
-  Users,
-  GraduationCap,
 } from "lucide-react"
 import { PageShell } from "@/components/layout/pageShell"
 import { PageHeader } from "@/components/layout/PageHeader"
 
 import {announcements} from "@/lib/constants"
-import { Stats } from "fs"
-import { StatsCard } from "@/components/admin/statsCard"
+import { StatsCard } from "@/components/shared/StatsCard"
 
 
 export default function AnnouncementsPage() {
