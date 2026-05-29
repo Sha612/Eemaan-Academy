@@ -7,11 +7,11 @@ import { ClipboardCheck, Save } from 'lucide-react';
 import { PageShell } from '@/components/layout/pageShell';
 import { PageHeader } from '@/components/layout/PageHeader';
 
-import { AttendanceDetailsCard } from '@/components/admin/attendance/AttedanceDetailsCard';
-import { SelectedClassCard } from '@/components/admin/attendance/SelectedClassCard';
-import { AttendanceSummaryGrid } from '@/components/admin/attendance/AttendanceSummaryGrid';
-import { StudentAttendanceTable } from '@/components/admin/attendance/StudentAttendanceTable';
-import { AttendanceFooter } from '@/components/admin/attendance/AttendanceFooter';
+import { AttendanceDetailsCard } from '@/modules/attendance/components/AttedanceDetailsCard';
+import { SelectedClassCard } from '@/modules/attendance/components/SelectedClassCard';
+import { AttendanceSummaryGrid } from '@/modules/attendance/components/AttendanceSummaryGrid';
+import { StudentAttendanceTable } from '@//modules/attendance/components/StudentAttendanceTable';
+import { AttendanceFooter } from '@/modules/attendance/components/AttendanceFooter';
 
 import { attendanceClasses, statusOptions, students } from '@/lib/constants';
 import { getAttendanceStats } from '@/lib/attendance/attendance-utils';

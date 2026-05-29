@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { ChevronDown, Bell, Search, User } from 'lucide-react';
+import { Bell, Search, User } from 'lucide-react';
 import { LogoutButton } from './logoutButton';
 import {
   DropdownMenu,

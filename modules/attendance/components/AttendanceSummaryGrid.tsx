@@ -1,5 +1,3 @@
-// components/admin/attendance/AttendanceSummaryGrid.tsx
-
 import {
   CheckCircle2,
   ClipboardCheck,
@@ -7,7 +5,7 @@ import {
   Users,
   XCircle,
 } from 'lucide-react';
-import { SummaryCard } from '@/components/admin/attendance/attendanceFunctions';
+import { SummaryCard } from '@/modules/attendance/components/attendanceFunctions';
 
 type AttendanceSummaryGridProps = {
   totalCount: number;

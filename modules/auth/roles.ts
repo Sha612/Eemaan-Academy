@@ -2,7 +2,7 @@
 
 export enum Role {
   ADMIN = 'admin',
-  HEAD_TEACHER = 'head_teacher',
+  HEAD_TEACHER = 'head teacher',
   TEACHER = 'teacher',
   STUDENT = 'student',
 }

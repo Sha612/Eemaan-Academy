@@ -4,8 +4,6 @@ import { Role } from '@/modules/auth/roles';
 import { signToken } from '@/modules/auth/services';
 import { NextRequest, NextResponse } from 'next/server';
 
-const secret = new TextEncoder().encode(process.env.JWT_SECRET!);
-
 export async function POST(req: NextRequest) {
   const { email, password } = await req.json();
 

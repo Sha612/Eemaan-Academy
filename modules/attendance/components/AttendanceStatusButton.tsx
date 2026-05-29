@@ -1,5 +1,3 @@
-// components/admin/attendance/AttendanceStatusButton.tsx
-
 import type {
   AttendanceStatus,
   AttendanceStatusOption,

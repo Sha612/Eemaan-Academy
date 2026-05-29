@@ -1,20 +1,15 @@
 import Link from 'next/link';
 import {
-  CalendarClock,
-  MoreHorizontal,
   Plus,
-  Search,
   ShieldCheck,
-  UserRoundCheck,
-  BookOpen,
 } from 'lucide-react';
 
-import { StatsCard } from '@/components/admin/statsCard';
+import { StatsCard } from '@/components/shared/StatsCard';
 import { replacements } from '@/lib/constants';
 import { PageShell } from '@/components/layout/pageShell';
 import { PageHeader } from '@/components/layout/PageHeader';
 import { buttonStyles } from '@/lib/style';
-import { ReplacementTableSection } from '@/components/admin/replacements/ReplacementTableSection';
+import { ReplacementTableSection } from '@/modules/replacements/components/ReplacementTableSection';
 
 export default function AdminReplacementsPage() {
   return (

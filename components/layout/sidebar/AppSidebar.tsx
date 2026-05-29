@@ -1,13 +1,11 @@
 'use client';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { usePathname } from 'next/navigation';
 
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
-  SidebarFooter,
   SidebarGroup,
   SidebarGroupLabel,
   useSidebar,
@@ -16,8 +14,6 @@ import {
 import { SidebarNav } from './SidebarNav';
 import { adminNavItems } from './nav-items';
 import { filterNavItems } from '@/lib/navigation';
-import { User } from '@/modules/auth/types';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 import { AuthUser } from '@/modules/auth/getUser'
 
@@ -27,7 +23,6 @@ type AppSidebarProps = {
 
 export function AppSidebar({ user }: AppSidebarProps) {
   const { state } = useSidebar();
-  const pathname = usePathname();
   const filteredNavItems = filterNavItems(adminNavItems, user);
 
   return (

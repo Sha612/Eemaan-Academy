@@ -1,5 +1,3 @@
-// components/admin/attendance/StudentAttendanceTable.tsx
-
 import { AttendanceStatusButton } from './AttendanceStatusButton';
 import { getInitials } from '@/lib/attendance/attendance-utils';
 import type {

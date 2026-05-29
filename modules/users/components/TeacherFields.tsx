@@ -7,29 +7,21 @@ type TeacherFieldsProps = {
 export function TeacherFields({ role }: TeacherFieldsProps) {
   return (
     <section className="rounded-2xl border border-[#eee7c8] bg-[#fbfaf4] p-4">
-      <h2 className="font-semibold text-[#2f3303]">
+      <h2 className="mb-4 font-semibold text-[#2f3303]">
         {role === Role.HEAD_TEACHER
           ? 'Head Teacher Profile'
           : 'Teacher Profile'}
       </h2>
 
-      <div className="mt-4 grid gap-4 md:grid-cols-2">
+      <div className="space-y-2">
+        <label className="text-sm font-medium text-[#2f3303]">
+          Specialization
+        </label>
         <input
           name="specialization"
-          className="rounded-xl border border-[#ddd4aa] px-4 py-2"
+          className="w-full rounded-xl border border-[#ddd4aa] bg-white px-4 py-3 text-sm outline-none transition focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#8a7a2f]/20"
           placeholder="Specialization e.g. Hifz"
         />
-
-        <select
-          name="classId"
-          defaultValue=""
-          className="rounded-xl border border-[#ddd4aa] px-4 py-2"
-        >
-          <option value="">Assign class later</option>
-          <option value="1">Hifz 1</option>
-          <option value="2">Fiqh 1</option>
-          <option value="3">Hadeeth 1</option>
-        </select>
       </div>
     </section>
   );

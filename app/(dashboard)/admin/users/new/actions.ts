@@ -1,51 +1,72 @@
-"use server"
+'use server'
 
-import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
+import { revalidatePath } from 'next/cache'
+import { redirect } from 'next/navigation'
+import { apiFetch } from '@/lib/api'
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000"
+export async function createUserAction(formData: FormData) {
+  try {
+    const role = String(formData.get('role'))
 
+    const user = {
+      email: String(formData.get('email')),
+      password: String(formData.get('password')),
+      role,
+    }
 
-export async function createStudentAction(formData: FormData) {
-  const body = {
-    firstName: String(formData.get("firstName")),
-    lastName: String(formData.get("lastName")),
-    gender: String(formData.get("gender")),
-    phoneNumber: String(formData.get("phoneNumber")),
-    guardianName: String(formData.get("guardianName")),
-    guardianPhoneNumber: String(formData.get("guardianPhoneNumber")),
-    guardianEmail: String(formData.get("guardianEmail")),
+    let endpoint = ''
+    let body: unknown
 
-    user: {
-      email: String(formData.get("email")),
-      password: String(formData.get("password")),
-      role: String(formData.get("role")),
-    },
+    if (role === 'student') {
+      endpoint = '/students'
+
+      body = {
+        firstName: String(formData.get('firstName')),
+        lastName: String(formData.get('lastName')),
+        gender: String(formData.get('gender')),
+        phoneNumber: String(formData.get('phoneNumber')),
+        guardianName: String(formData.get('guardianName')),
+        guardianPhoneNumber: String(formData.get('guardianPhoneNumber')),
+        guardianEmail: String(formData.get('guardianEmail')),
+        user,
+      }
+    } else if (role === 'teacher' || role === 'head teacher') {
+      endpoint = '/teachers'
+
+      body = {
+        firstName: String(formData.get('firstName')),
+        lastName: String(formData.get('lastName')),
+        gender: String(formData.get('gender')),
+        phoneNumber: String(formData.get('phoneNumber')),
+        user,
+      }
+    } else if (role === 'admin') {
+      endpoint = '/users'
+
+      body = user
+    } else {
+      throw new Error('Invalid role selected')
+    }
+
+    console.log('Create user payload:', body)
+
+    await apiFetch(endpoint, {
+      method: 'POST',
+      body: JSON.stringify(body),
+    })
+  } catch (error) {
+    console.error('Create user action failed:', error)
+
+    if (error instanceof Error) {
+      throw new Error(error.message)
+    }
+
+    throw new Error('Something went wrong while creating the user')
   }
 
-  console.log("Student payload:", body)
+  revalidatePath('/admin/users')
+  revalidatePath('/admin/students')
+  revalidatePath('/admin/teachers')
 
-  const res = await fetch(`${API_URL}/students`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
-  })
-
-  if (!res.ok) {
-    const error = await res.json().catch(() => null)
-
-    console.log("Create student error:", error)
-
-    throw new Error(
-      Array.isArray(error?.message)
-        ? error.message.join(", ")
-        : error?.message ?? "Failed to create student"
-    )
-  }
-
-  revalidatePath("/admin/users")
-  revalidatePath("/admin/students")
-  redirect("/admin/users")
+  redirect('/admin/users')
 }

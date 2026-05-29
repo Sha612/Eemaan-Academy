@@ -1,4 +1,4 @@
-// components/users/GenderRadioGroup.tsx
+//@/modules/users/components/GenderRadioGroup.tsx
 
 type GenderRadioGroupProps = {
   name?: string;

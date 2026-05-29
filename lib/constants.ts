@@ -4,13 +4,9 @@
 // static configs
 import {
   AlertCircle,
-  Calendar,
   CheckCircle2,
-  ClipboardCheck,
   Clock,
   MinusCircle,
-  Save,
-  Users,
   XCircle,
 } from 'lucide-react';
 

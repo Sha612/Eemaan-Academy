@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowLeft, UserPlus } from 'lucide-react';
-import TeacherForm from '@/components/admin/forms/TeacherForm';
+import TeacherForm from '@/modules/teachers/components/TeacherForm';
 
 export default function NewTeacherPage() {
   return (

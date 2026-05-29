@@ -1,4 +1,4 @@
-// components/users/RoleSpecificFields.tsx
+// @/modules/users/components/RoleSpecificFields.tsx
 
 import { StudentFields } from './StudentFields';
 import { TeacherFields } from './TeacherFields';

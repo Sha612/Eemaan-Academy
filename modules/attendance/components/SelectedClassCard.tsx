@@ -1,5 +1,3 @@
-// components/admin/attendance/SelectedClassCard.tsx
-
 import type { AttendanceClass } from '@/lib/attendance/attendance-types';
 
 type SelectedClassCardProps = {
