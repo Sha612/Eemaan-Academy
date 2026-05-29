@@ -1,18 +1,20 @@
-import Link from "next/link"
-import { ArrowLeft, Save } from "lucide-react"
-import { apiFetch } from "@/lib/api"
-import { User } from "@/modules/auth/types"
-import { updateUserAction } from "../../actions"
+import Link from 'next/link';
+import { ArrowLeft, Save } from 'lucide-react';
+import { getServerApi } from '@/lib/server-api';
+import { User } from '@/modules/auth/types';
+import { updateUserAction } from '../../actions';
 
 type EditUserPageProps = {
   params: Promise<{
-    id: string
-  }>
-}
+    id: string;
+  }>;
+};
 
 export default async function EditUserPage({ params }: EditUserPageProps) {
-  const { id } = await params
-  const user = await apiFetch<User>(`/users/${id}`)
+  const { id } = await params;
+  const serverApi = await getServerApi();
+  const response = await serverApi.get<User>(`/users/${id}`);
+  const user = response.data;
 
   return (
     <main className="p-6">
@@ -28,7 +30,8 @@ export default async function EditUserPage({ params }: EditUserPageProps) {
           <div>
             <h1 className="text-xl font-semibold text-[#2f3303]">Edit User</h1>
             <p className="text-sm text-[#68654f]">
-              Update the user email. Role and login status are managed separately.
+              Update the user email. Role and login status are managed
+              separately.
             </p>
           </div>
         </div>
@@ -74,11 +77,11 @@ export default async function EditUserPage({ params }: EditUserPageProps) {
               <span
                 className={`rounded-full px-3 py-1 text-xs font-medium ${
                   user.isActive
-                    ? "bg-green-50 text-green-700"
-                    : "bg-red-50 text-red-700"
+                    ? 'bg-green-50 text-green-700'
+                    : 'bg-red-50 text-red-700'
                 }`}
               >
-                {user.isActive ? "Active" : "Inactive"}
+                {user.isActive ? 'Active' : 'Inactive'}
               </span>
             </div>
           </div>
@@ -102,5 +105,5 @@ export default async function EditUserPage({ params }: EditUserPageProps) {
         </form>
       </section>
     </main>
-  )
+  );
 }
