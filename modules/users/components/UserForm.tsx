@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { RoleSpecificFields } from './RoleSpecificFields';
 import { Role } from '@/modules/auth/roles';
 import { GenderRadioGroup } from './GenderRadioGroup';
+import { ArrowLeft } from 'lucide-react';
+import Link from 'next/link';
 export function UserForm() {
   const [role, setRole] = useState<Role>(Role.STUDENT);
 
@@ -14,13 +16,22 @@ export function UserForm() {
       action={createUserAction}
       className="mx-auto max-w-3xl space-y-6 rounded-2xl border border-[#ddd4aa]/70 bg-white p-6 shadow-sm"
     >
-      <div>
-        <h1 className="text-2xl font-semibold text-[#2f3303]">
-          Create System User
-        </h1>
-        <p className="text-sm text-[#68654f]">
-          Create one user account and attach the correct profile based on role.
-        </p>
+      <div className="flex items-center gap-3">
+        <Link
+          href="/admin/users"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-[#ddd4aa] bg-[#fbfaf4] text-[#4b5205] shadow-sm transition hover:bg-[#f1ead0]"
+        >
+          <ArrowLeft size={18} />
+        </Link>
+        <div>
+          <h1 className="text-2xl font-semibold text-[#2f3303]">
+            Create System User
+          </h1>
+          <p className="text-sm text-[#68654f]">
+            Create one user account and attach the correct profile based on
+            role.
+          </p>
+        </div>
       </div>
 
       <section className="grid gap-4 md:grid-cols-2">
