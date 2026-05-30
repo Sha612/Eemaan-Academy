@@ -1,47 +1,44 @@
 // lib/server-api.ts
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
+import { cookies } from 'next/headers'
 
-import { cookies } from 'next/headers';
-import { api } from './axios';
+const API_URL = process.env.NEST_API_URL
 
-export async function getServerApi() {
-  const cookieStore = await cookies();
-  const token = cookieStore.get('token')?.value;
-
-  if (!token) {
-    throw new Error('Authentication required');
+export async function serverApi<T>(
+  path: string,
+  options: AxiosRequestConfig = {}
+): Promise<T> {
+  if (!API_URL) {
+    throw new Error('NEST_API_URL is not defined')
   }
 
-  return {
-    get: <T>(url: string, config = {}) =>
-      api.get<T>(url, {
-        ...config,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+  const cookieStore = await cookies()
+  const token = cookieStore.get('token')?.value
 
-    post: <T>(url: string, data?: unknown, config = {}) =>
-      api.post<T>(url, data, {
-        ...config,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+  try {
+    const res = await axios.request<T>({
+      baseURL: API_URL,
+      url: path,
+      ...options,
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        ...options.headers,
+      },
+    })
 
-    patch: <T>(url: string, data?: unknown, config = {}) =>
-      api.patch<T>(url, data, {
-        ...config,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
+    return res.data
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      const message = error.response?.data?.message
 
-    delete: <T>(url: string, config = {}) =>
-      api.delete<T>(url, {
-        ...config,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }),
-  };
+      throw new Error(
+        Array.isArray(message)
+          ? message.join(', ')
+          : message || `API error: ${error.response?.status || 'unknown'}`
+      )
+    }
+
+    throw error
+  }
 }
