@@ -1,4 +1,5 @@
 'use server';
+import axios from 'axios'
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -38,6 +39,7 @@ export async function createUserAction(formData: FormData) {
         lastName: String(formData.get('lastName')),
         gender: String(formData.get('gender')),
         phoneNumber: String(formData.get('phoneNumber')),
+        specialization: String(formData.get('specialization')),
         user,
       };
     } else if (role === 'admin') {
@@ -54,14 +56,17 @@ export async function createUserAction(formData: FormData) {
 
     await serverApi.post(endpoint, body);
   } catch (error) {
-    console.error('Create user action failed:', error);
-
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
-
-    throw new Error('Something went wrong while creating the user');
+  if (axios.isAxiosError(error)) {
+    console.error('Create user backend error:', error.response?.data)
+    throw new Error(
+      Array.isArray(error.response?.data?.message)
+        ? error.response.data.message.join(', ')
+        : error.response?.data?.message || 'Create user failed'
+    )
   }
+
+  throw new Error('Something went wrong while creating the user')
+}
 
   revalidatePath('/admin/users');
   revalidatePath('/admin/students');

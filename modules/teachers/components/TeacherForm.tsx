@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { LoginAccessToggle } from '@/components/admin/forms/LoginAccessToggle';
+import { createTeacherAction } from '@/app/(dashboard)/admin/teachers/new/action';
 
 export default function TeacherForm() {
   const [grantLoginAccess, setGrantLoginAccess] = useState(false);
 
   return (
-    <form className="space-y-6">
+    <form className="space-y-6" action={createTeacherAction} method="post">
       <section className="rounded-2xl border border-[#ddd4aa]/70 bg-white p-6 shadow-sm">
         <h2 className="text-lg font-semibold text-[#2f3303]">
           Teacher Details

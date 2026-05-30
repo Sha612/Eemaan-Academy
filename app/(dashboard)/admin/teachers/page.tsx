@@ -1,35 +1,15 @@
-import {
-  Search,
-  UserRoundCheck,
-  BookOpen,
-  MoreHorizontal,
-} from 'lucide-react';
+import { getTeachers } from '@/modules/teachers/services';
+import { Search, UserRoundCheck, BookOpen, MoreHorizontal } from 'lucide-react';
 
-const teachers = [
-  {
-    id: '1',
-    name: 'Ahmed Teacher',
-    email: 'ahmed.teacher@example.com',
-    assignedClasses: ['Fiqh 1', 'Fiqh 2'],
-    status: 'Active',
-  },
-  {
-    id: '2',
-    name: 'Fatima Head Teacher',
-    email: 'fatima.head@example.com',
-    assignedClasses: ['Hifz 1'],
-    status: 'Active',
-  },
-  {
-    id: '3',
-    name: 'Umar Teacher',
-    email: 'umar.teacher@example.com',
-    assignedClasses: ['Hadeeth 1'],
-    status: 'Active',
-  },
-];
+export default async function AdminTeachersPage() {
+  const teachersResponse = await getTeachers(1, 10);
+  const teachers = teachersResponse.data;
+  const meta = teachersResponse.meta;
 
-export default function AdminTeachersPage() {
+  const activeTeachers = teachers.filter(
+    (teacher) => teacher.user?.isActive,
+  ).length;
+
   return (
     <main className="space-y-6">
       <section className="flex flex-col gap-3 rounded-2xl border border-[#ddd4aa]/70 bg-[#fbfaf4] p-6 shadow-sm md:flex-row md:items-center md:justify-between">
@@ -46,10 +26,10 @@ export default function AdminTeachersPage() {
       </section>
 
       <section className="grid gap-4 md:grid-cols-4">
-        <StatsCard title="Total Teachers" value={teachers.length.toString()} />
-        <StatsCard title="Active Teachers" value="3" />
-        <StatsCard title="Assigned Classes" value="4" />
-        <StatsCard title="Replacement Access" value="0" />
+        <StatsCard title="Total Teachers" value={meta.total.toString()} />
+        <StatsCard title="Active Teachers" value={activeTeachers.toString()} />
+        <StatsCard title="Assigned Classes" value="—" />
+        <StatsCard title="Replacement Access" value="—" />
       </section>
 
       <section className="rounded-2xl border border-[#ddd4aa]/70 bg-white shadow-sm">
@@ -59,7 +39,7 @@ export default function AdminTeachersPage() {
               Teacher List
             </h2>
             <p className="text-sm text-[#68654f]">
-              View all teachers and the classes currently assigned to them.
+              View all teachers and their account status.
             </p>
           </div>
 
@@ -74,11 +54,13 @@ export default function AdminTeachersPage() {
         </div>
 
         <div className="overflow-x-auto">
-          <table className="w-full min-w-200 text-left text-sm">
+          <table className="w-full min-w-[900px] text-left text-sm">
             <thead className="bg-[#fbfaf4] text-xs uppercase tracking-wide text-[#68654f]">
               <tr>
                 <th className="px-4 py-3 font-semibold">Teacher</th>
                 <th className="px-4 py-3 font-semibold">Email</th>
+                <th className="px-4 py-3 font-semibold">Specialization</th>
+                <th className="px-4 py-3 font-semibold">Phone</th>
                 <th className="px-4 py-3 font-semibold">Assigned Classes</th>
                 <th className="px-4 py-3 font-semibold">Status</th>
                 <th className="px-4 py-3 text-right font-semibold">Action</th>
@@ -93,9 +75,10 @@ export default function AdminTeachersPage() {
                       <div className="flex size-10 items-center justify-center rounded-full bg-[#f1ead0] text-[#4b5205]">
                         <UserRoundCheck size={18} />
                       </div>
+
                       <div>
                         <p className="font-medium text-[#2f3303]">
-                          {teacher.name}
+                          {teacher.firstName} {teacher.lastName}
                         </p>
                         <p className="text-xs text-[#8c876d]">
                           Teacher ID: {teacher.id}
@@ -104,25 +87,32 @@ export default function AdminTeachersPage() {
                     </div>
                   </td>
 
-                  <td className="px-4 py-4 text-[#68654f]">{teacher.email}</td>
-
-                  <td className="px-4 py-4">
-                    <div className="flex flex-wrap gap-2">
-                      {teacher.assignedClasses.map((className) => (
-                        <span
-                          key={className}
-                          className="inline-flex items-center gap-1 rounded-full bg-[#f1ead0] px-3 py-1 text-xs font-medium text-[#4b5205]"
-                        >
-                          <BookOpen size={13} />
-                          {className}
-                        </span>
-                      ))}
-                    </div>
+                  <td className="px-4 py-4 text-[#68654f]">
+                    {teacher.user?.email ?? 'No email'}
+                  </td>
+                  <td className="px-4 py-4 text-[#68654f]">
+                    {teacher.specialization}
+                  </td>
+                  <td className="px-4 py-4 text-[#68654f]">
+                    {teacher.phoneNumber}
                   </td>
 
                   <td className="px-4 py-4">
-                    <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
-                      {teacher.status}
+                    <span className="inline-flex items-center gap-1 rounded-full bg-[#f1ead0] px-3 py-1 text-xs font-medium text-[#4b5205]">
+                      <BookOpen size={13} />
+                      Not assigned
+                    </span>
+                  </td>
+
+                  <td className="px-4 py-4">
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-medium ${
+                        teacher.user?.isActive
+                          ? 'bg-green-50 text-green-700'
+                          : 'bg-red-50 text-red-700'
+                      }`}
+                    >
+                      {teacher.user?.isActive ? 'Active' : 'Inactive'}
                     </span>
                   </td>
 
@@ -135,6 +125,13 @@ export default function AdminTeachersPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        <div className="flex items-center justify-between border-t border-[#eee7c8] px-4 py-3 text-sm text-[#68654f]">
+          <p>
+            Page {meta.page} of {meta.totalPages}
+          </p>
+          <p>{meta.total} teachers</p>
         </div>
       </section>
     </main>

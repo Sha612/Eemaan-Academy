@@ -1,35 +1,14 @@
-import {
-  Search,
-  GraduationCap,
-  BookOpen,
-  MoreHorizontal,
-} from 'lucide-react';
+import { Search, GraduationCap, BookOpen, MoreHorizontal } from 'lucide-react';
+import { getStudents } from '@/modules/students/services';
 
-const students = [
-  {
-    id: '1',
-    name: 'Aisha Muhammad',
-    email: 'aisha@example.com',
-    classes: ['Fiqh 1', 'Hifz 1'],
-    status: 'Active',
-  },
-  {
-    id: '2',
-    name: 'Yusuf Ahmed',
-    email: 'yusuf@example.com',
-    classes: ['Hadeeth 1'],
-    status: 'Active',
-  },
-  {
-    id: '3',
-    name: 'Maryam Ali',
-    email: 'maryam@example.com',
-    classes: ['Fiqh 2', 'Hifz 2'],
-    status: 'Active',
-  },
-];
+export default async function AdminStudentsPage() {
+  const studentsResponse = await getStudents(1, 10);
+  const students = studentsResponse.data;
+  const meta = studentsResponse.meta;
+  const activeStudents = students.filter(
+    (student) => student.user?.isActive,
+  ).length;
 
-export default function AdminStudentsPage() {
   return (
     <main className="space-y-6">
       <section className="flex flex-col gap-3 rounded-2xl border border-[#ddd4aa]/70 bg-[#fbfaf4] p-6 shadow-sm md:flex-row md:items-center md:justify-between">
@@ -46,10 +25,10 @@ export default function AdminStudentsPage() {
       </section>
 
       <section className="grid gap-4 md:grid-cols-4">
-        <StatsCard title="Total Students" value={students.length.toString()} />
-        <StatsCard title="Active Students" value="3" />
-        <StatsCard title="Enrolled Classes" value="5" />
-        <StatsCard title="Dropped" value="0" />
+        <StatsCard title="Total Students" value={meta.total.toString()} />
+        <StatsCard title="Active Students" value={activeStudents.toString()} />
+        <StatsCard title="Enrolled Classes" value="—" />
+        <StatsCard title="Dropped" value="—" />
       </section>
 
       <section className="rounded-2xl border border-[#ddd4aa]/70 bg-white shadow-sm">
@@ -78,7 +57,8 @@ export default function AdminStudentsPage() {
             <thead className="bg-[#fbfaf4] text-xs uppercase tracking-wide text-[#68654f]">
               <tr>
                 <th className="px-4 py-3 font-semibold">Student</th>
-                <th className="px-4 py-3 font-semibold">Email</th>
+                <th className="px-4 py-3 font-semibold">Login Email</th>
+                <th className="px-4 py-3 font-semibold">Guardian Email</th>
                 <th className="px-4 py-3 font-semibold">Classes</th>
                 <th className="px-4 py-3 font-semibold">Status</th>
                 <th className="px-4 py-3 text-right font-semibold">Action</th>
@@ -95,7 +75,7 @@ export default function AdminStudentsPage() {
                       </div>
                       <div>
                         <p className="font-medium text-[#2f3303]">
-                          {student.name}
+                          {student.firstName} {student.lastName}
                         </p>
                         <p className="text-xs text-[#8c876d]">
                           Student ID: {student.id}
@@ -104,25 +84,41 @@ export default function AdminStudentsPage() {
                     </div>
                   </td>
 
-                  <td className="px-4 py-4 text-[#68654f]">{student.email}</td>
-
                   <td className="px-4 py-4">
-                    <div className="flex flex-wrap gap-2">
-                      {student.classes.map((className) => (
-                        <span
-                          key={className}
-                          className="inline-flex items-center gap-1 rounded-full bg-[#f1ead0] px-3 py-1 text-xs font-medium text-[#4b5205]"
-                        >
-                          <BookOpen size={13} />
-                          {className}
-                        </span>
-                      ))}
-                    </div>
+                    <p className="text-sm text-[#2f3303]">
+                      {student.user?.email ?? 'No login email'}
+                    </p>
+                  </td>
+                  <td className="px-4 py-4 text-[#68654f]">
+                    {student.guardianEmail}
                   </td>
 
                   <td className="px-4 py-4">
-                    <span className="rounded-full bg-green-50 px-3 py-1 text-xs font-medium text-green-700">
-                      {student.status}
+                    {student.class ? (
+                      <div>
+                        <p className="font-medium text-[#2f3303]">
+                          {student.class.name}
+                        </p>
+                        <p className="text-xs text-[#8c876d]">
+                          {student.class.subject} · Level {student.class.level}
+                        </p>
+                      </div>
+                    ) : (
+                      <span className="text-xs text-[#8c876d]">
+                        Not assigned
+                      </span>
+                    )}
+                  </td>
+
+                  <td className="px-4 py-4">
+                    <span
+                      className={`rounded-full px-3 py-1 text-xs font-medium ${
+                        student.user?.isActive
+                          ? 'bg-green-50 text-green-700'
+                          : 'bg-red-50 text-red-700'
+                      }`}
+                    >
+                      {student.user?.isActive ? 'Active' : 'Inactive'}
                     </span>
                   </td>
 
@@ -135,6 +131,12 @@ export default function AdminStudentsPage() {
               ))}
             </tbody>
           </table>
+        </div>
+        <div className="flex items-center justify-between border-t border-[#eee7c8] px-4 py-3 text-sm text-[#68654f]">
+          <p>
+            Page {meta.page} of {meta.totalPages}
+          </p>
+          <p>{meta.total} students</p>
         </div>
       </section>
     </main>
