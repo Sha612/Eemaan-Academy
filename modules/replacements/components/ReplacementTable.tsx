@@ -1,14 +1,9 @@
-import {
-  MoreHorizontal,
-  UserRoundCheck,
-  CalendarClock,
-  BookOpen,
-} from 'lucide-react';
-
+import { expireReplacementAction } from '@/app/(dashboard)/admin/replacements/actions';
+import { Trash2, UserRoundCheck, CalendarClock, BookOpen } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 export type ReplacementItem = {
   id: string;
   replacementTeacher: string;
-  primaryTeacher: string;
   className: string;
   startDate: string;
   startTime: string;
@@ -30,7 +25,6 @@ export function ReplacementTable({ replacements }: ReplacementTableProps) {
           <tr>
             <th className="px-4 py-3 font-semibold">Replacement Teacher</th>
             <th className="px-4 py-3 font-semibold">Class</th>
-            <th className="px-4 py-3 font-semibold">Primary Teacher</th>
             <th className="px-4 py-3 font-semibold">Access Window</th>
             <th className="px-4 py-3 font-semibold">Reason</th>
             <th className="px-4 py-3 font-semibold">Status</th>
@@ -63,10 +57,6 @@ export function ReplacementTable({ replacements }: ReplacementTableProps) {
                 </span>
               </td>
 
-              <td className="px-4 py-4 text-[#68654f]">
-                {replacement.primaryTeacher}
-              </td>
-
               <td className="px-4 py-4">
                 <div className="flex items-start gap-2 text-[#68654f]">
                   <CalendarClock size={16} className="mt-0.5" />
@@ -87,10 +77,40 @@ export function ReplacementTable({ replacements }: ReplacementTableProps) {
                 <StatusBadge status={replacement.status} />
               </td>
 
-              <td className="px-4 py-4 text-right">
-                <button className="inline-flex size-9 items-center justify-center rounded-lg text-[#68654f] transition hover:bg-[#f1ead0] hover:text-[#2f3303]">
-                  <MoreHorizontal size={18} />
-                </button>
+              <td className="px-4 py-4">
+                <form
+                  action={async () => {
+                    'use server';
+
+                    await expireReplacementAction(replacement.id);
+                  }}
+                >
+                  <Button
+                    type="submit"
+                    variant="outline"
+                    size="sm"
+                    disabled={replacement.status === 'expired'}
+                    className="
+    border-red-200
+    bg-red-50
+    text-red-700
+    hover:border-red-300
+    hover:bg-red-100
+    hover:text-red-800
+    disabled:cursor-not-allowed
+    disabled:border-gray-200
+    disabled:bg-gray-100
+    disabled:text-gray-400
+    disabled:opacity-70
+  "
+                  >
+                    <Trash2 size={14} />
+
+                    {replacement.status === 'expired'
+                      ? 'Access Expired'
+                      : 'Remove Access'}
+                  </Button>
+                </form>
               </td>
             </tr>
           ))}

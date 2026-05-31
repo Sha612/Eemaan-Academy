@@ -1,8 +1,16 @@
 import { TableSection } from '@/components/shared/TableSection';
 import { TableSectionHeader } from '@/components/shared/TableSectionHeader';
-import { ClassesTable, ClassItem } from '@/modules/classes/components/ClassesTable';
+import { ClassesTable } from '@/modules/classes/components/ClassesTable';
+import type { ClassResponse } from '@/modules/classes/types'
 
-export function ClassesTableSection({ classes }: { classes: ClassItem[] }) {
+type ClassTableRow = ClassResponse & {
+  studentsCount?: number
+}
+
+type ClassesTableSectionProps = {
+  classes: ClassTableRow[]
+}
+export function ClassesTableSection({ classes }: ClassesTableSectionProps) {
   return (
     <TableSection>
       <TableSectionHeader

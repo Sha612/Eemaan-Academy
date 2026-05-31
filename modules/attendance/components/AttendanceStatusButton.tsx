@@ -1,7 +1,7 @@
 import type {
   AttendanceStatus,
   AttendanceStatusOption,
-} from '@/lib/attendance/attendance-types';
+} from '@/modules/attendance/types';
 
 type AttendanceStatusButtonProps = {
   option: AttendanceStatusOption;

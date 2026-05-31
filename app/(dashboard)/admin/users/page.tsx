@@ -1,25 +1,12 @@
-// app/(dashboard)/admin/users/page.tsx
-
 import Link from 'next/link'
 import { Pencil, Plus, Trash2, Users } from 'lucide-react'
 import { getUsers } from '@/modules/users/services'
-import { User } from '@/modules/auth/types'
 import { deleteUserAction } from './actions'
 
 type UsersPageProps = {
   searchParams: Promise<{
     page?: string
   }>
-}
-
-type PaginatedUsersResponse = {
-  data: User[]
-  meta: {
-    total: number
-    page: number
-    limit: number
-    totalPages: number
-  }
 }
 
 export default async function UsersPage({ searchParams }: UsersPageProps) {

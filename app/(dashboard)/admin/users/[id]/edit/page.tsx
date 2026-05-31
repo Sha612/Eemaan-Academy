@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ArrowLeft, Save } from 'lucide-react';
-import { getServerApi } from '@/lib/server-api';
+import { serverApi } from '@/lib/server-api';
 import { User } from '@/modules/auth/types';
 import { updateUserAction } from '../../actions';
 
@@ -12,10 +12,7 @@ type EditUserPageProps = {
 
 export default async function EditUserPage({ params }: EditUserPageProps) {
   const { id } = await params;
-  const serverApi = await getServerApi();
-  const response = await serverApi.get<User>(`/users/${id}`);
-  const user = response.data;
-
+  const user = await serverApi<User>(`/users/${id}`);
   return (
     <main className="p-6">
       <section className="mx-auto max-w-2xl rounded-2xl border border-[#ddd4aa]/70 bg-white shadow-sm">

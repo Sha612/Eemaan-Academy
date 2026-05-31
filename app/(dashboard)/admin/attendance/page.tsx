@@ -1,117 +1,120 @@
-'use client';
+import { ClipboardCheck } from 'lucide-react';
+import { serverApi } from '@/lib/server-api';
+import { ClassResponse } from '@/modules/classes/types';
+import {
+  AttendanceResponse,
+  EnrollmentResponse,
+} from '@/modules/attendance/types';
+import { AttendanceTable } from '@/modules/attendance/components/attendanceTable';
 
-import { useMemo, useState } from 'react';
-import { useSearchParams } from 'next/navigation';
-import { ClipboardCheck, Save } from 'lucide-react';
+export default async function AdminAttendancePage() {
+  const [classesResponse, enrollmentsResponse] = await Promise.all([
+    serverApi<ClassResponse[] | { data: ClassResponse[] }>('/classes', {
+      method: 'GET',
+    }),
+    serverApi<EnrollmentResponse[] | { data: EnrollmentResponse[] }>(
+      '/enrollments',
+      {
+        method: 'GET',
+      },
+    ),
+  ]);
 
-import { PageShell } from '@/components/layout/pageShell';
-import { PageHeader } from '@/components/layout/PageHeader';
+  const classes = Array.isArray(classesResponse)
+    ? classesResponse
+    : classesResponse.data;
 
-import { AttendanceDetailsCard } from '@/modules/attendance/components/AttedanceDetailsCard';
-import { SelectedClassCard } from '@/modules/attendance/components/SelectedClassCard';
-import { AttendanceSummaryGrid } from '@/modules/attendance/components/AttendanceSummaryGrid';
-import { StudentAttendanceTable } from '@//modules/attendance/components/StudentAttendanceTable';
-import { AttendanceFooter } from '@/modules/attendance/components/AttendanceFooter';
+  const enrollments = Array.isArray(enrollmentsResponse)
+    ? enrollmentsResponse
+    : enrollmentsResponse.data;
 
-import { attendanceClasses, statusOptions, students } from '@/lib/constants';
-import { getAttendanceStats } from '@/lib/attendance/attendance-utils';
-import type {
-  AttendanceRecord,
-  AttendanceStatus,
-  AttendanceStatusOption,
-} from '@/lib/attendance/attendance-types';
+  const attendanceByClass = await Promise.all(
+    classes.map(async (classItem) => {
+      const response = await serverApi<
+        AttendanceResponse[] | { data: AttendanceResponse[] }
+      >(`/attendance/class/${classItem.id}`, {
+        method: 'GET',
+      });
 
-export default function AttendancePage() {
-  const searchParams = useSearchParams();
-  const preselectedClass = searchParams.get('class');
+      const records = Array.isArray(response) ? response : response.data;
 
-  const [selectedClass, setSelectedClass] = useState(preselectedClass || '1');
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString().split('T')[0],
+      return {
+        classId: classItem.id,
+        records,
+      };
+    }),
   );
 
-  const [attendance, setAttendance] = useState<AttendanceRecord>({});
+  const classAttendance = classes.map((classItem) => {
+    const classEnrollments = enrollments.filter(
+      (enrollment) =>
+        enrollment.class.id === classItem.id &&
+        enrollment.enrollmentStatus === 'active',
+    );
 
-  const selectedClassDetails = useMemo(() => {
-    return attendanceClasses.find((cls) => cls.id === selectedClass);
-  }, [selectedClass]);
+    const attendanceRecords =
+      attendanceByClass.find((item) => item.classId === classItem.id)
+        ?.records || [];
 
-  const stats = getAttendanceStats(attendance, students.length);
+    const activeStudentIds = classEnrollments.map(
+      (enrollment) => enrollment.student.id,
+    );
 
-  function updateAttendance(studentId: number, status: AttendanceStatus) {
-    setAttendance((prev) => ({
-      ...prev,
-      [studentId]: prev[studentId] === status ? undefined : status,
-    }));
-  }
+    const markedRecords = attendanceRecords.filter((record) =>
+      activeStudentIds.includes(record.student.id),
+    );
 
-  function handleSave() {
-    const payload = {
-      classId: selectedClass,
-      date: selectedDate,
-      records: attendance,
+    const present = markedRecords.filter(
+      (record) => record.status === 'present',
+    ).length;
+
+    const absent = markedRecords.filter(
+      (record) => record.status === 'absent',
+    ).length;
+
+    const late = markedRecords.filter(
+      (record) => record.status === 'late',
+    ).length;
+
+    const isCompleted =
+      activeStudentIds.length > 0 &&
+      markedRecords.length >= activeStudentIds.length;
+
+    return {
+      id: classItem.id,
+      className: classItem.name,
+      teacher: classItem.teacher
+        ? `${classItem.teacher.firstName} ${classItem.teacher.lastName}`
+        : 'No teacher assigned',
+      time: `${classItem.startTime || '--:--'} - ${
+        classItem.endTime || '--:--'
+      }`,
+      totalStudents: activeStudentIds.length,
+      present,
+      absent,
+      late,
+      status: isCompleted ? 'completed' as const : 'pending' as const,
     };
-
-    console.log('Saving attendance:', payload);
-    alert('Attendance saved successfully!');
-  }
-
-  const canSave = stats.markedCount === students.length;
+  });
 
   return (
-    <PageShell>
-      <PageHeader
-        label="Attendance Management"
-        title="Mark Student Attendance"
-        icon={ClipboardCheck}
-        description="Select a class and date, then record each student's attendance status before saving the register."
-        actions={
-          <button
-            onClick={handleSave}
-            disabled={!canSave}
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#4b5205] px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-[#2f3303] disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            <Save size={18} />
-            Save Attendance
-          </button>
-        }
-      />
+    <main className="space-y-6">
+      <section className="rounded-2xl border border-[#ddd4aa] bg-[#fbfaf4] p-6 shadow-sm">
+        <div className="flex items-center gap-2 text-[#4b5205]">
+          <ClipboardCheck className="h-5 w-5" />
+          <span className="text-sm font-medium">Attendance Management</span>
+        </div>
 
-      <section className="grid gap-4 lg:grid-cols-[1.4fr_0.6fr]">
-        <AttendanceDetailsCard
-          classes={attendanceClasses}
-          selectedClass={selectedClass}
-          selectedDate={selectedDate}
-          onClassChange={setSelectedClass}
-          onDateChange={setSelectedDate}
-        />
+        <h1 className="mt-2 text-2xl font-semibold text-[#2f3303]">
+          Attendance
+        </h1>
 
-        <SelectedClassCard selectedClass={selectedClassDetails} />
+        <p className="mt-1 text-sm text-[#6f6a4d]">
+          Select a class to mark or review attendance.
+        </p>
       </section>
 
-      <AttendanceSummaryGrid
-        totalCount={students.length}
-        presentCount={stats.presentCount}
-        absentCount={stats.absentCount}
-        lateCount={stats.lateCount}
-        markedCount={stats.markedCount}
-        progressPercentage={stats.progressPercentage}
-      />
-
-      <StudentAttendanceTable
-        students={students}
-        attendance={attendance}
-        statusOptions={statusOptions as AttendanceStatusOption[]}
-        remainingCount={stats.remainingCount}
-        onUpdateAttendance={updateAttendance}
-      />
-
-      <AttendanceFooter
-        markedCount={stats.markedCount}
-        totalCount={students.length}
-        remainingCount={stats.remainingCount}
-        onSave={handleSave}
-      />
-    </PageShell>
+      <AttendanceTable classAttendance={classAttendance} />
+    </main>
   );
 }

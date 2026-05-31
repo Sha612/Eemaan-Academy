@@ -1,70 +1,83 @@
-'use server'
+'use server';
 
-import { cookies } from 'next/headers'
-import { redirect } from 'next/navigation'
-import { Role } from '@/modules/auth/roles'
-import { LoginResponse } from '@/modules/auth/types'
+import axios, { AxiosError } from 'axios';
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { Role } from '@/modules/auth/roles';
+import { LoginResponse } from '@/modules/auth/types';
 
-type LoginState = {
-  error: string
-}
+type LoginState = { error: string };
 
-const API_URL = "https://eemaan-foundation-backend-production.up.railway.app"
+const API_URL = process.env.NEST_API_URL;
 
 function getDashboardPath(role: Role) {
-  if (role === Role.ADMIN) return '/admin'
-  if (role === Role.TEACHER || role === Role.HEAD_TEACHER) return '/teacher'
-  if (role === Role.STUDENT) return '/student'
+  if (role === Role.ADMIN) return '/admin';
+  if (role === Role.TEACHER || role === Role.HEAD_TEACHER) return '/teacher';
+  if (role === Role.STUDENT) return '/student';
 
-  return '/login'
+  return '/login';
 }
 
 export async function loginAction(
   prevState: LoginState,
-  formData: FormData
+  formData: FormData,
 ): Promise<LoginState> {
-  const email = String(formData.get('email') || '')
-  const password = String(formData.get('password') || '')
-
-  const res = await fetch(`${API_URL}/auth/login`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, password }),
-    cache: 'no-store',
-  })
-
-  if (!res.ok) {
-    return {
-      error: 'Invalid email or password',
-    }
-  }
-  const data: LoginResponse = await res.json()
-
-  if (!data.accessToken || !data.user?.role) {
-    return {
-      error: 'Invalid login response from server',
-    }
+  if (!API_URL) {
+    return { error: 'Server API URL is not configured' };
   }
 
-  const cookieStore = await cookies()
+  const email = String(formData.get('email') || '');
+  const password = String(formData.get('password') || '');
+  let dashboardPath = '/login';
 
-  cookieStore.set('token', data.accessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 7,
-  })
+  try {
+    const res = await axios.post<LoginResponse>(
+      `${API_URL}/auth/login`,
+      { email, password },
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    );
 
-  cookieStore.set('role', data.user.role, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
-    path: '/',
-    maxAge: 60 * 60 * 24 * 7,
-  })
+    const data = res.data;
+    console.log('Login response data:', data);
 
-  redirect(getDashboardPath(data.user.role))
+    if (!data.accessToken || !data.user?.role) {
+      return {
+        error: 'Invalid login response from server',
+      };
+    }
+
+    const cookieStore = await cookies();
+
+    cookieStore.set('token', data.accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    });
+
+    cookieStore.set('role', data.user.role, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 60 * 60 * 24 * 7,
+    });
+    dashboardPath = getDashboardPath(data.user.role);
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return {
+        error: 'Invalid email or password',
+      };
+    }
+
+    return {
+      error: 'Something went wrong during login',
+    };
+  }
+  redirect(dashboardPath);
 }

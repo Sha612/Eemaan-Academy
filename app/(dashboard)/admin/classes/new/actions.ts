@@ -1,55 +1,25 @@
 'use server';
 
+import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { readJsonFile, writeJsonFile } from '@/lib/dev-store';
-
-type StoredClass = {
-  id: string;
-  name: string;
-  subject: string;
-  level: string;
-  description: string;
-  status: 'ACTIVE' | 'INACTIVE';
-  primaryTeacherId: string | null;
-  createdAt: string;
-};
+import { serverApi } from '@/lib/server-api';
 
 export async function createClassAction(formData: FormData) {
-  const name = String(formData.get('name') || '').trim();
-  const subject = String(formData.get('subject') || '').trim();
-  const level = String(formData.get('level') || '').trim();
-  const description = String(formData.get('description') || '').trim();
-  const status = String(formData.get('status') || 'ACTIVE') as
-    | 'ACTIVE'
-    | 'INACTIVE';
-
-  if (!name) throw new Error('Class name is required');
-  if (!subject) throw new Error('Subject is required');
-
-  const classes = await readJsonFile<StoredClass[]>('classes.json', []);
-
-  const classExists = classes.some(
-    (classItem) => classItem.name.toLowerCase() === name.toLowerCase(),
-  );
-
-  if (classExists) {
-    throw new Error('A class with this name already exists');
-  }
-
-  const newClass: StoredClass = {
-    id: crypto.randomUUID(),
-    name,
-    subject,
-    level,
-    description,
-    status,
-    primaryTeacherId: null,
-    createdAt: new Date().toISOString(),
+  const payload = {
+    name: String(formData.get('name') || '').trim(),
+    subject: String(formData.get('subject') || '').trim(),
+    level: Number(formData.get('level')),
+    day: String(formData.get('day') || '')
+      .trim()
+      .toUpperCase(),
+    startTime: String(formData.get('startTime') || '').trim(),
+    endTime: String(formData.get('endTime') || '').trim(),
+    meetingUrl: String(formData.get('meetingUrl') || '').trim() || null,
   };
+  console.log('Creating class with payload:', payload);
 
-  classes.push(newClass);
+  await serverApi('/classes', { method: 'POST', data: payload });
 
-  await writeJsonFile('classes.json', classes);
-
+  revalidatePath('/admin/classes');
   redirect('/admin/classes');
 }

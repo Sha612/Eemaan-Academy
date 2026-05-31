@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { revalidatePath } from 'next/cache';
-import { getServerApi } from '@/lib/server-api';
+import { serverApi } from '@/lib/server-api';
 
 export async function updateUserAction(formData: FormData) {
   const id = String(formData.get('id'));
@@ -10,9 +10,8 @@ export async function updateUserAction(formData: FormData) {
   const payload = {
     email: String(formData.get('email')),
   };
-  const serverApi = await getServerApi();
 
-  await serverApi.patch(`/users/${id}`, payload);
+  await serverApi(`/users/${id}`, { method: 'PATCH', data: payload });
 
   redirect('/admin/users');
 }
@@ -23,8 +22,7 @@ export async function deleteUserAction(formData: FormData) {
     throw new Error('User ID is required');
   }
 
-  const serverApi = await getServerApi();
-  await serverApi.delete(`/users/${id}`);
+  await serverApi(`/users/${id}`, { method: 'DELETE' });
 
   revalidatePath('/admin/users');
 }

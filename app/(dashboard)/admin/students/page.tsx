@@ -1,12 +1,41 @@
-import { Search, GraduationCap, BookOpen, MoreHorizontal } from 'lucide-react';
+import { Search, GraduationCap, Pencil, BookOpen } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import { getStudents } from '@/modules/students/services';
+import { getEnrollments } from '@/modules/enrollments/services';
 
 export default async function AdminStudentsPage() {
-  const studentsResponse = await getStudents(1, 10);
-  const students = studentsResponse.data;
+  const [studentsResponse, enrollments] = await Promise.all([
+    getStudents(1, 10),
+    getEnrollments(),
+  ]);
+
+  const students = studentsResponse.data ?? [];
   const meta = studentsResponse.meta;
+
   const activeStudents = students.filter(
     (student) => student.user?.isActive,
+  ).length;
+
+  const activeEnrollments = enrollments.filter(
+    (enrollment) =>
+      !enrollment.enrollmentStatus || enrollment.enrollmentStatus === 'active',
+  );
+
+  const studentsWithClasses = students.map((student) => {
+    const assignedClasses = activeEnrollments
+      .filter((enrollment) => enrollment.student?.id === student.id)
+      .map((enrollment) => enrollment.class)
+      .filter(Boolean);
+
+    return {
+      ...student,
+      assignedClasses,
+    };
+  });
+
+  const enrolledStudentsCount = studentsWithClasses.filter(
+    (student) => student.assignedClasses.length > 0,
   ).length;
 
   return (
@@ -27,8 +56,14 @@ export default async function AdminStudentsPage() {
       <section className="grid gap-4 md:grid-cols-4">
         <StatsCard title="Total Students" value={meta.total.toString()} />
         <StatsCard title="Active Students" value={activeStudents.toString()} />
-        <StatsCard title="Enrolled Classes" value="—" />
-        <StatsCard title="Dropped" value="—" />
+        <StatsCard
+          title="Students Enrolled"
+          value={enrolledStudentsCount.toString()}
+        />
+        <StatsCard
+          title="Total Enrollments"
+          value={activeEnrollments.length.toString()}
+        />
       </section>
 
       <section className="rounded-2xl border border-[#ddd4aa]/70 bg-white shadow-sm">
@@ -58,7 +93,6 @@ export default async function AdminStudentsPage() {
               <tr>
                 <th className="px-4 py-3 font-semibold">Student</th>
                 <th className="px-4 py-3 font-semibold">Login Email</th>
-                <th className="px-4 py-3 font-semibold">Guardian Email</th>
                 <th className="px-4 py-3 font-semibold">Classes</th>
                 <th className="px-4 py-3 font-semibold">Status</th>
                 <th className="px-4 py-3 text-right font-semibold">Action</th>
@@ -66,72 +100,96 @@ export default async function AdminStudentsPage() {
             </thead>
 
             <tbody className="divide-y divide-[#eee7c8]">
-              {students.map((student) => (
-                <tr key={student.id} className="transition hover:bg-[#fbfaf4]">
-                  <td className="px-4 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex size-10 items-center justify-center rounded-full bg-[#f1ead0] text-[#4b5205]">
-                        <GraduationCap size={18} />
-                      </div>
-                      <div>
-                        <p className="font-medium text-[#2f3303]">
-                          {student.firstName} {student.lastName}
-                        </p>
-                        <p className="text-xs text-[#8c876d]">
-                          Student ID: {student.id}
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td className="px-4 py-4">
-                    <p className="text-sm text-[#2f3303]">
-                      {student.user?.email ?? 'No login email'}
-                    </p>
-                  </td>
-                  <td className="px-4 py-4 text-[#68654f]">
-                    {student.guardianEmail}
-                  </td>
-
-                  <td className="px-4 py-4">
-                    {student.class ? (
-                      <div>
-                        <p className="font-medium text-[#2f3303]">
-                          {student.class.name}
-                        </p>
-                        <p className="text-xs text-[#8c876d]">
-                          {student.class.subject} · Level {student.class.level}
-                        </p>
-                      </div>
-                    ) : (
-                      <span className="text-xs text-[#8c876d]">
-                        Not assigned
-                      </span>
-                    )}
-                  </td>
-
-                  <td className="px-4 py-4">
-                    <span
-                      className={`rounded-full px-3 py-1 text-xs font-medium ${
-                        student.user?.isActive
-                          ? 'bg-green-50 text-green-700'
-                          : 'bg-red-50 text-red-700'
-                      }`}
-                    >
-                      {student.user?.isActive ? 'Active' : 'Inactive'}
-                    </span>
-                  </td>
-
-                  <td className="px-4 py-4 text-right">
-                    <button className="inline-flex size-9 items-center justify-center rounded-lg text-[#68654f] transition hover:bg-[#f1ead0] hover:text-[#2f3303]">
-                      <MoreHorizontal size={18} />
-                    </button>
+              {studentsWithClasses.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-4 py-8 text-center text-[#8c876d]"
+                  >
+                    No students found.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                studentsWithClasses.map((student) => (
+                  <tr
+                    key={student.id}
+                    className="transition hover:bg-[#fbfaf4]"
+                  >
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex size-10 items-center justify-center rounded-full bg-[#f1ead0] text-[#4b5205]">
+                          <GraduationCap size={18} />
+                        </div>
+
+                        <div>
+                          <p className="font-medium text-[#2f3303]">
+                            {student.firstName} {student.lastName}
+                          </p>
+                          <p className="text-xs text-[#8c876d]">
+                            Student ID: {student.id}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="px-4 py-4">
+                      <p className="text-sm text-[#2f3303]">
+                        {student.user?.email ?? 'No login email'}
+                      </p>
+                    </td>
+
+                    <td className="px-4 py-4">
+                      {student.assignedClasses.length > 0 ? (
+                        <div className="flex flex-col gap-1">
+                          {student.assignedClasses.map((classItem) => (
+                            <span
+                              key={classItem.id}
+                              className="inline-flex w-fit items-center gap-1 rounded-full bg-[#f1ead0] px-3 py-1 text-xs font-medium text-[#4b5205]"
+                            >
+                              <BookOpen size={13} />
+                              {classItem.name}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-xs text-[#8c876d]">
+                          Not assigned
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="px-4 py-4">
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-medium ${
+                          student.user?.isActive
+                            ? 'bg-green-50 text-green-700'
+                            : 'bg-red-50 text-red-700'
+                        }`}
+                      >
+                        {student.user?.isActive ? 'Active' : 'Inactive'}
+                      </span>
+                    </td>
+
+                    <td className="px-4 py-4 text-right">
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="border-[#d8c98b] text-[#4b5205] hover:bg-[#f4efd8]"
+                      >
+                        <Link href={`/admin/students/${student.id}/edit`}>
+                          <Pencil className="mr-2 h-4 w-4" />
+                          Edit
+                        </Link>
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
+
         <div className="flex items-center justify-between border-t border-[#eee7c8] px-4 py-3 text-sm text-[#68654f]">
           <p>
             Page {meta.page} of {meta.totalPages}

@@ -96,17 +96,6 @@ export const adminNavItems = [
     title: 'Attendance',
     icon: ClipboardCheck,
     permission: Permission.VIEW_ATTENDANCE,
-    children: [
-      {
-        title: 'Attendance Overview',
-        href: '/admin/attendance/overview',
-        permission: Permission.VIEW_ATTENDANCE,
-      },
-      {
-        title: 'Mark Attendance',
-        href: '/admin/attendance',
-        permission: Permission.MARK_ATTENDANCE,
-      },
-    ],
+    href: '/admin/attendance',
   },
 ];
