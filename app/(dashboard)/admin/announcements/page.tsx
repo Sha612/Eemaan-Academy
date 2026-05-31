@@ -1,109 +1,189 @@
-import Link from "next/link"
+import Link from 'next/link';
 import {
   Megaphone,
+  Pencil,
   Plus,
-  Search,
-} from "lucide-react"
-import { PageShell } from "@/components/layout/pageShell"
-import { PageHeader } from "@/components/layout/PageHeader"
+  Trash2,
+} from 'lucide-react';
+import { serverApi } from '@/lib/server-api';
+import {
+  AnnouncementResponse,
+  PaginatedAnnouncementsResponse,
+} from '@/modules/announcements/types';
+import { deleteAnnouncementAction } from './actions';
+import { Button } from '@/components/ui/button';
 
-import {announcements} from "@/lib/constants"
-import { StatsCard } from "@/components/shared/StatsCard"
+function getPriorityBadge(priority: string) {
+  const base =
+    'rounded-full px-3 py-1 text-xs font-medium capitalize';
 
+  if (priority === 'high') {
+    return `${base} bg-red-50 text-red-700`;
+  }
 
-export default function AnnouncementsPage() {
+  if (priority === 'medium') {
+    return `${base} bg-yellow-50 text-yellow-700`;
+  }
+
+  return `${base} bg-green-50 text-green-700`;
+}
+
+export default async function AnnouncementsPage() {
+  const response = await serverApi<
+    AnnouncementResponse[] | PaginatedAnnouncementsResponse
+  >('/announcements', {
+    method: 'GET',
+  });
+
+  const announcements = Array.isArray(response)
+    ? response
+    : response.data;
+
   return (
-    <PageShell>
-        <PageHeader
-          title="Announcements"
-          description="Manage school-wide, class-specific, and teacher-only announcements."
-          icon={Megaphone}
-          actions={
-            <Link
-              href="/admin/announcements/new"
-              className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#4b5205] px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-[#2f3303]"
-            >
-              <Plus size={16} />
-              New Announcement
-            </Link>
-          }
-        />
-
-      <section className="grid gap-4 md:grid-cols-3">
-
-        <StatsCard title="School-wide" value={announcements.filter(a => a.type === "School-wide").length.toString()}  />
-        <StatsCard title="Class-specific" value={announcements.filter(a => a.type === "Class-specific").length.toString()}  />
-        <StatsCard title="Teacher-only" value={announcements.filter(a => a.type === "Teacher-only").length.toString()}  />
-        
-      </section>
-
-      <section className="rounded-2xl border border-[#ddd4aa]/70 bg-white shadow-sm">
-        <div className="flex flex-col gap-3 border-b border-[#eee7c8] p-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h2 className="text-base font-semibold text-[#2f3303]">
-              Announcement List
-            </h2>
-            <p className="text-sm text-[#68654f]">
-              View and manage published announcements.
-            </p>
+    <main className="space-y-6 p-6">
+      <div className="flex flex-col gap-4 rounded-2xl border border-[#ddd4aa] bg-[#fbfaf4] p-5 shadow-sm md:flex-row md:items-center md:justify-between">
+        <div>
+          <div className="flex items-center gap-2 text-[#4b5205]">
+            <Megaphone className="h-5 w-5" />
+            <span className="text-sm font-medium">
+              Communication Management
+            </span>
           </div>
 
-          <div className="flex items-center gap-2 rounded-xl border border-[#ddd4aa] bg-white px-3 py-2 text-sm text-[#8c876d] shadow-sm">
-            <Search size={16} />
-            <input
-              type="text"
-              placeholder="Search announcements..."
-              className="w-full bg-transparent text-[#2f3303] outline-none placeholder:text-[#9b967c] md:w-64"
-            />
-          </div>
+          <h1 className="mt-2 text-2xl font-semibold text-[#2f3303]">
+            Announcements
+          </h1>
+
+          <p className="mt-1 text-sm text-[#6f6a4d]">
+            Manage school-wide, class-specific, and teacher announcements.
+          </p>
         </div>
 
-        <div className="divide-y divide-[#eee7c8]">
-          {announcements.map((announcement) => (
-            <div
-              key={announcement.id}
-              className="grid gap-4 p-4 transition hover:bg-[#fbfaf4] lg:grid-cols-[1.5fr_1fr_1fr_auto]"
-            >
-              <div>
-                <h3 className="font-semibold text-[#2f3303]">
-                  {announcement.title}
-                </h3>
-                <p className="mt-1 text-sm text-[#68654f]">
-                  {announcement.message}
-                </p>
-              </div>
+        <Button
+          asChild
+          className="bg-[#4b5205] text-white hover:bg-[#2f3303]"
+        >
+          <Link href="/admin/announcements/new">
+            <Plus className="mr-2 h-4 w-4" />
+            New Announcement
+          </Link>
+        </Button>
+      </div>
 
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-[#8a7a2f]">
-                  Type
-                </p>
-                <p className="mt-1 text-sm font-medium text-[#2f3303]">
-                  {announcement.type}
-                </p>
-                <p className="text-xs text-[#68654f]">
-                  Audience: {announcement.audience}
-                </p>
-              </div>
-
-              <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-[#8a7a2f]">
-                  Details
-                </p>
-                <p className="mt-1 text-sm text-[#2f3303]">
-                  {announcement.priority}
-                </p>
-                <p className="text-xs text-[#68654f]">{announcement.date}</p>
-              </div>
-
-              <div className="flex items-start justify-between gap-3 lg:justify-end">
-                <span className="rounded-full border border-[#d8d0a2] bg-[#fbfaf4] px-3 py-1 text-xs font-medium text-[#4b5205]">
-                  {announcement.status}
-                </span>
-              </div>
+      <section className="overflow-hidden rounded-2xl border border-[#ddd4aa] bg-white shadow-sm">
+        {announcements.length === 0 ? (
+          <div className="p-10 text-center">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#f1ead0] text-[#4b5205]">
+              <Megaphone className="h-6 w-6" />
             </div>
-          ))}
-        </div>
+
+            <h2 className="mt-4 font-semibold text-[#2f3303]">
+              No announcements found
+            </h2>
+
+            <p className="mt-2 text-sm text-[#6f6a4d]">
+              Create your first announcement to start communicating with users.
+            </p>
+
+            <Button
+              asChild
+              className="mt-5 bg-[#4b5205] text-white hover:bg-[#2f3303]"
+            >
+              <Link href="/admin/announcements/new">
+                Create Announcement
+              </Link>
+            </Button>
+          </div>
+        ) : (
+          <table className="w-full border-collapse text-sm">
+            <thead className="bg-[#fbfaf4] text-left text-[#4b5205]">
+              <tr>
+                <th className="px-5 py-4 font-semibold">Title</th>
+                <th className="px-5 py-4 font-semibold">Type</th>
+                <th className="px-5 py-4 font-semibold">Priority</th>
+                <th className="px-5 py-4 font-semibold">Class</th>
+                <th className="px-5 py-4 font-semibold">Created</th>
+                <th className="px-5 py-4 text-right font-semibold">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {announcements.map((announcement) => (
+                <tr
+                  key={announcement.id}
+                  className="border-t border-[#eee6c7] transition hover:bg-[#fbfaf4]"
+                >
+                  <td className="px-5 py-4">
+                    <div>
+                      <p className="font-medium text-[#2f3303]">
+                        {announcement.title}
+                      </p>
+                      <p className="mt-1 line-clamp-1 max-w-md text-xs text-[#6f6a4d]">
+                        {announcement.message}
+                      </p>
+                    </div>
+                  </td>
+
+                  <td className="px-5 py-4 capitalize text-[#6f6a4d]">
+                    {announcement.type}
+                  </td>
+
+                  <td className="px-5 py-4">
+                    <span className={getPriorityBadge(announcement.priority)}>
+                      {announcement.priority}
+                    </span>
+                  </td>
+
+                  <td className="px-5 py-4 text-[#6f6a4d]">
+                    {announcement.class
+                      ? `${announcement.class.name}`
+                      : announcement.type === 'class'
+                        ? 'Class not linked'
+                        : 'Not required'}
+                  </td>
+
+                  <td className="px-5 py-4 text-[#6f6a4d]">
+                    {new Date(announcement.createdAt).toLocaleDateString()}
+                  </td>
+
+                  <td className="px-5 py-4">
+                    <div className="flex justify-end gap-2">
+                      <Button asChild size="sm" variant="outline">
+                        <Link
+                          href={`/admin/announcements/${announcement.id}/edit`}
+                        >
+                          <Pencil className="mr-2 h-4 w-4" />
+                          Edit
+                        </Link>
+                      </Button>
+
+                      <form action={deleteAnnouncementAction}>
+                        <input
+                          type="hidden"
+                          name="id"
+                          value={announcement.id}
+                        />
+
+                        <Button
+                          type="submit"
+                          size="sm"
+                          variant="outline"
+                          className="border-red-200 text-red-700 hover:bg-red-50"
+                        >
+                          <Trash2 className="mr-2 h-4 w-4" />
+                          Delete
+                        </Button>
+                      </form>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </section>
-    </PageShell>
-  )
+    </main>
+  );
 }

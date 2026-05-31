@@ -1,11 +1,17 @@
 import Link from 'next/link';
-import { ArrowLeft, BookOpen } from 'lucide-react';
+import { ArrowLeft, BookOpen, CalendarDays, Users } from 'lucide-react';
 import { createClassAction } from './actions';
+import { serverApi } from '@/lib/server-api';
+import { getTeachers } from '@/modules/teachers/services';
 
-export default function NewClassPage() {
+export default async function NewClassPage() {
+  const teacherResponse = await getTeachers();
+
+const teachers = teacherResponse.data;
+
   return (
     <main className="min-h-screen bg-[#f7f4e8] px-6 py-6">
-      <div className="mx-auto max-w-4xl space-y-6">
+      <div className="mx-auto max-w-5xl space-y-6">
         <div className="flex items-center gap-3">
           <Link
             href="/admin/classes"
@@ -19,108 +25,175 @@ export default function NewClassPage() {
               Create Class
             </h1>
             <p className="text-sm text-[#68654f]">
-              Create a subject-based class such as Hifz 1, Fiqh 2, or Hadeeth 1.
+              Set up the class, weekly schedule, meeting link, and primary teacher.
             </p>
           </div>
         </div>
 
-        <section className="rounded-2xl border border-[#ddd4aa]/70 bg-[#fbfaf4] p-6 shadow-sm">
-          <div className="mb-6 flex items-start gap-4 rounded-2xl border border-[#ddd4aa]/70 bg-white p-4">
-            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#f1ead0] text-[#4b5205]">
-              <BookOpen size={22} />
-            </div>
+        <section className="overflow-hidden rounded-3xl border border-[#ddd4aa]/70 bg-[#fbfaf4] shadow-sm">
+          <div className="border-b border-[#ddd4aa]/70 bg-white/70 p-6">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#f1ead0] text-[#4b5205]">
+                <BookOpen size={24} />
+              </div>
 
-            <div>
-              <h2 className="font-semibold text-[#2f3303]">
-                Class Information
-              </h2>
-              <p className="mt-1 text-sm leading-6 text-[#68654f]">
-                A class can later be assigned to one primary teacher and can
-                have enrolled students.
-              </p>
+              <div>
+                <h2 className="text-lg font-semibold text-[#2f3303]">
+                  Class Information
+                </h2>
+                <p className="mt-1 max-w-2xl text-sm leading-6 text-[#68654f]">
+                  Classes are subject-based and level-based. Each class can have
+                  one primary teacher and a recurring weekly schedule.
+                </p>
+              </div>
             </div>
           </div>
 
-          <form action={createClassAction} className="space-y-6">
-            <div className="grid gap-5 md:grid-cols-2">
+          <form action={createClassAction} className="space-y-8 p-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <BookOpen size={18} className="text-[#4b5205]" />
+                <h3 className="font-semibold text-[#2f3303]">Basic Details</h3>
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-3">
+                <div className="space-y-2 md:col-span-2">
+                  <label htmlFor="name" className="text-sm font-medium text-[#2f3303]">
+                    Class Name
+                  </label>
+                  <input
+                    id="name"
+                    name="name"
+                    required
+                    placeholder="Example: Hifz 1"
+                    className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm text-[#2f3303] outline-none transition placeholder:text-[#9a9578] focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="level" className="text-sm font-medium text-[#2f3303]">
+                    Level
+                  </label>
+                  <input
+                    id="level"
+                    name="level"
+                    type="number"
+                    required
+                    min={1}
+                    placeholder="1"
+                    className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm text-[#2f3303] outline-none transition placeholder:text-[#9a9578] focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="subject" className="text-sm font-medium text-[#2f3303]">
+                    Subject
+                  </label>
+                  <input
+                    id="subject"
+                    name="subject"
+                    required
+                    placeholder="Example: Hifz"
+                    className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm text-[#2f3303] outline-none transition placeholder:text-[#9a9578] focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
+                  />
+                </div>
+
+                <div className="space-y-2 md:col-span-2">
+                  <label htmlFor="teacher_id" className="text-sm font-medium text-[#2f3303]">
+                    Primary Teacher
+                  </label>
+                  <select
+                    id="teacher_id"
+                    name="teacher_id"
+                    defaultValue=""
+                    className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm text-[#2f3303] outline-none transition focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
+                  >
+                    <option value="">No teacher assigned yet</option>
+                    {teachers.map((teacher) => (
+                      <option key={teacher.id} value={teacher.id}>
+                        {teacher.firstName} {teacher.lastName}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-[#ddd4aa]/70 bg-white/60 p-5">
+              <div className="mb-4 flex items-center gap-2">
+                <CalendarDays size={18} className="text-[#4b5205]" />
+                <h3 className="font-semibold text-[#2f3303]">Weekly Schedule</h3>
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-3">
+                <div className="space-y-2">
+                  <label htmlFor="day" className="text-sm font-medium text-[#2f3303]">
+                    Day
+                  </label>
+                  <select
+                    id="day"
+                    name="day"
+                    required
+                    defaultValue=""
+                    className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm text-[#2f3303] outline-none transition focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
+                  >
+                    <option value="" disabled>
+                      Select day
+                    </option>
+                    <option value="monday">MONDAY</option>
+                    <option value="tuesday">TUESDAY</option>
+                    <option value="wednesday">WEDNESDAY</option>
+                    <option value="thursday">THURSDAY</option>
+                    <option value="friday">FRIDAY</option>
+                    <option value="saturday">SATURDAY</option>
+                    <option value="sunday">SUNDAY</option>
+                  </select>
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="startTime" className="text-sm font-medium text-[#2f3303]">
+                    Start Time
+                  </label>
+                  <input
+                    id="startTime"
+                    name="startTime"
+                    type="time"
+                    required
+                    className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm text-[#2f3303] outline-none transition focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="endTime" className="text-sm font-medium text-[#2f3303]">
+                    End Time
+                  </label>
+                  <input
+                    id="endTime"
+                    name="endTime"
+                    type="time"
+                    required
+                    className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm text-[#2f3303] outline-none transition focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-[#ddd4aa]/70 bg-white/60 p-5">
+              <div className="mb-4 flex items-center gap-2">
+                <Users size={18} className="text-[#4b5205]" />
+                <h3 className="font-semibold text-[#2f3303]">Virtual Class Access</h3>
+              </div>
+
               <div className="space-y-2">
-                <label
-                  htmlFor="name"
-                  className="text-sm font-medium text-[#2f3303]"
-                >
-                  Class Name
+                <label htmlFor="meetingUrl" className="text-sm font-medium text-[#2f3303]">
+                  Google Meet Link
                 </label>
                 <input
-                  id="name"
-                  name="name"
-                  required
-                  placeholder="Example: Hifz 1"
-                  className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm outline-none focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="subject"
-                  className="text-sm font-medium text-[#2f3303]"
-                >
-                  Subject
-                </label>
-                <input
-                  id="subject"
-                  name="subject"
-                  required
-                  placeholder="Example: Hifz"
-                  className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm outline-none focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="level"
-                  className="text-sm font-medium text-[#2f3303]"
-                >
-                  Level
-                </label>
-                <input
-                  id="level"
-                  name="level"
-                  placeholder="Example: Level 1"
-                  className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm outline-none focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label
-                  htmlFor="status"
-                  className="text-sm font-medium text-[#2f3303]"
-                >
-                  Status
-                </label>
-                <select
-                  id="status"
-                  name="status"
-                  defaultValue="ACTIVE"
-                  className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm outline-none focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
-                >
-                  <option value="ACTIVE">Active</option>
-                  <option value="INACTIVE">Inactive</option>
-                </select>
-              </div>
-
-              <div className="space-y-2 md:col-span-2">
-                <label
-                  htmlFor="description"
-                  className="text-sm font-medium text-[#2f3303]"
-                >
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  rows={4}
-                  placeholder="Optional class description"
-                  className="w-full rounded-xl border border-[#ddd4aa] bg-white px-4 py-3 text-sm outline-none focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
+                  id="meetingUrl"
+                  name="meetingUrl"
+                  type="url"
+                  placeholder="https://meet.google.com/xxx-xxxx-xxx"
+                  className="h-11 w-full rounded-xl border border-[#ddd4aa] bg-white px-4 text-sm text-[#2f3303] outline-none transition placeholder:text-[#9a9578] focus:border-[#8a7a2f] focus:ring-2 focus:ring-[#ddd4aa]"
                 />
               </div>
             </div>

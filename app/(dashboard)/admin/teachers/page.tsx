@@ -1,13 +1,40 @@
 import { getTeachers } from '@/modules/teachers/services';
-import { Search, UserRoundCheck, BookOpen, MoreHorizontal } from 'lucide-react';
+import { getClasses } from '@/modules/classes/services';
+import { Search, UserRoundCheck, BookOpen, Pencil } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 
 export default async function AdminTeachersPage() {
-  const teachersResponse = await getTeachers(1, 10);
-  const teachers = teachersResponse.data;
+  const [teachersResponse, classesResponse] = await Promise.all([
+    getTeachers(1, 10),
+    getClasses(),
+  ]);
+
+  const teachers = teachersResponse.data ?? [];
   const meta = teachersResponse.meta;
+  const classes = classesResponse.data ?? [];
 
   const activeTeachers = teachers.filter(
     (teacher) => teacher.user?.isActive,
+  ).length;
+
+  const teachersWithClasses = teachers.map((teacher) => {
+    const assignedClasses = classes.filter(
+      (classItem) => classItem.teacher?.id === teacher.id,
+    );
+
+    return {
+      ...teacher,
+      assignedClasses,
+    };
+  });
+
+  const assignedTeachersCount = teachersWithClasses.filter(
+    (teacher) => teacher.assignedClasses.length > 0,
+  ).length;
+
+  const assignedClassesCount = classes.filter(
+    (classItem) => classItem.teacher,
   ).length;
 
   return (
@@ -28,8 +55,14 @@ export default async function AdminTeachersPage() {
       <section className="grid gap-4 md:grid-cols-4">
         <StatsCard title="Total Teachers" value={meta.total.toString()} />
         <StatsCard title="Active Teachers" value={activeTeachers.toString()} />
-        <StatsCard title="Assigned Classes" value="—" />
-        <StatsCard title="Replacement Access" value="—" />
+        <StatsCard
+          title="Assigned Teachers"
+          value={assignedTeachersCount.toString()}
+        />
+        <StatsCard
+          title="Assigned Classes"
+          value={assignedClassesCount.toString()}
+        />
       </section>
 
       <section className="rounded-2xl border border-[#ddd4aa]/70 bg-white shadow-sm">
@@ -39,7 +72,7 @@ export default async function AdminTeachersPage() {
               Teacher List
             </h2>
             <p className="text-sm text-[#68654f]">
-              View all teachers and their account status.
+              View all teachers and their assigned classes.
             </p>
           </div>
 
@@ -68,61 +101,98 @@ export default async function AdminTeachersPage() {
             </thead>
 
             <tbody className="divide-y divide-[#eee7c8]">
-              {teachers.map((teacher) => (
-                <tr key={teacher.id} className="transition hover:bg-[#fbfaf4]">
-                  <td className="px-4 py-4">
-                    <div className="flex items-center gap-3">
-                      <div className="flex size-10 items-center justify-center rounded-full bg-[#f1ead0] text-[#4b5205]">
-                        <UserRoundCheck size={18} />
-                      </div>
-
-                      <div>
-                        <p className="font-medium text-[#2f3303]">
-                          {teacher.firstName} {teacher.lastName}
-                        </p>
-                        <p className="text-xs text-[#8c876d]">
-                          Teacher ID: {teacher.id}
-                        </p>
-                      </div>
-                    </div>
-                  </td>
-
-                  <td className="px-4 py-4 text-[#68654f]">
-                    {teacher.user?.email ?? 'No email'}
-                  </td>
-                  <td className="px-4 py-4 text-[#68654f]">
-                    {teacher.specialization}
-                  </td>
-                  <td className="px-4 py-4 text-[#68654f]">
-                    {teacher.phoneNumber}
-                  </td>
-
-                  <td className="px-4 py-4">
-                    <span className="inline-flex items-center gap-1 rounded-full bg-[#f1ead0] px-3 py-1 text-xs font-medium text-[#4b5205]">
-                      <BookOpen size={13} />
-                      Not assigned
-                    </span>
-                  </td>
-
-                  <td className="px-4 py-4">
-                    <span
-                      className={`rounded-full px-3 py-1 text-xs font-medium ${
-                        teacher.user?.isActive
-                          ? 'bg-green-50 text-green-700'
-                          : 'bg-red-50 text-red-700'
-                      }`}
-                    >
-                      {teacher.user?.isActive ? 'Active' : 'Inactive'}
-                    </span>
-                  </td>
-
-                  <td className="px-4 py-4 text-right">
-                    <button className="inline-flex size-9 items-center justify-center rounded-lg text-[#68654f] transition hover:bg-[#f1ead0] hover:text-[#2f3303]">
-                      <MoreHorizontal size={18} />
-                    </button>
+              {teachersWithClasses.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={7}
+                    className="px-4 py-8 text-center text-[#8c876d]"
+                  >
+                    No teachers found.
                   </td>
                 </tr>
-              ))}
+              ) : (
+                teachersWithClasses.map((teacher) => (
+                  <tr
+                    key={teacher.id}
+                    className="transition hover:bg-[#fbfaf4]"
+                  >
+                    <td className="px-4 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex size-10 items-center justify-center rounded-full bg-[#f1ead0] text-[#4b5205]">
+                          <UserRoundCheck size={18} />
+                        </div>
+
+                        <div>
+                          <p className="font-medium text-[#2f3303]">
+                            {teacher.firstName} {teacher.lastName}
+                          </p>
+                          <p className="text-xs text-[#8c876d]">
+                            Teacher ID: {teacher.id}
+                          </p>
+                        </div>
+                      </div>
+                    </td>
+
+                    <td className="px-4 py-4 text-[#68654f]">
+                      {teacher.user?.email ?? 'No email'}
+                    </td>
+
+                    <td className="px-4 py-4 text-[#68654f]">
+                      {teacher.specialization ?? 'Not specified'}
+                    </td>
+
+                    <td className="px-4 py-4 text-[#68654f]">
+                      {teacher.phoneNumber ?? 'No phone'}
+                    </td>
+
+                    <td className="px-4 py-4">
+                      {teacher.assignedClasses.length > 0 ? (
+                        <div className="flex flex-col gap-1">
+                          {teacher.assignedClasses.map((classItem) => (
+                            <span
+                              key={classItem.id}
+                              className="inline-flex w-fit items-center gap-1 rounded-full bg-[#f1ead0] px-3 py-1 text-xs font-medium text-[#4b5205]"
+                            >
+                              <BookOpen size={13} />
+                              {classItem.name}
+                            </span>
+                          ))}
+                        </div>
+                      ) : (
+                        <span className="text-xs text-[#8c876d]">
+                          Not assigned
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="px-4 py-4">
+                      <span
+                        className={`rounded-full px-3 py-1 text-xs font-medium ${
+                          teacher.user?.isActive
+                            ? 'bg-green-50 text-green-700'
+                            : 'bg-red-50 text-red-700'
+                        }`}
+                      >
+                        {teacher.user?.isActive ? 'Active' : 'Inactive'}
+                      </span>
+                    </td>
+
+                    <td className="px-4 py-4 text-right">
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="sm"
+                        className="border-[#d8c98b] text-[#4b5205] hover:bg-[#f4efd8]"
+                      >
+                        <Link href={`/admin/teachers/${teacher.id}/edit`}>
+                         <Pencil className="mr-2 h-4 w-4" />
+                          Edit
+                        </Link>
+                      </Button>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>

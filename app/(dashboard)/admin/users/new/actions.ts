@@ -1,9 +1,8 @@
 'use server';
-import axios from 'axios'
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { getServerApi } from '@/lib/server-api';
+import { serverApi } from '@/lib/server-api';
 
 export async function createUserAction(formData: FormData) {
   try {
@@ -20,7 +19,6 @@ export async function createUserAction(formData: FormData) {
 
     if (role === 'student') {
       endpoint = '/students';
-
       body = {
         firstName: String(formData.get('firstName')),
         lastName: String(formData.get('lastName')),
@@ -33,7 +31,6 @@ export async function createUserAction(formData: FormData) {
       };
     } else if (role === 'teacher' || role === 'head teacher') {
       endpoint = '/teachers';
-
       body = {
         firstName: String(formData.get('firstName')),
         lastName: String(formData.get('lastName')),
@@ -44,29 +41,22 @@ export async function createUserAction(formData: FormData) {
       };
     } else if (role === 'admin') {
       endpoint = '/users';
-
       body = user;
     } else {
       throw new Error('Invalid role selected');
     }
 
-    console.log('Create user payload:', body);
-
-    const serverApi = await getServerApi();
-
-    await serverApi.post(endpoint, body);
+    await serverApi(endpoint, {
+      method: 'POST',
+      data: body,
+    });
   } catch (error) {
-  if (axios.isAxiosError(error)) {
-    console.error('Create user backend error:', error.response?.data)
-    throw new Error(
-      Array.isArray(error.response?.data?.message)
-        ? error.response.data.message.join(', ')
-        : error.response?.data?.message || 'Create user failed'
-    )
-  }
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    }
 
-  throw new Error('Something went wrong while creating the user')
-}
+    throw new Error('Something went wrong while creating the user');
+  }
 
   revalidatePath('/admin/users');
   revalidatePath('/admin/students');

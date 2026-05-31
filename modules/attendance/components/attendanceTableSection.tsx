@@ -1,12 +1,14 @@
 import { TableSection } from '@/components/shared/TableSection';
 import { TableSectionHeader } from '@/components/shared/TableSectionHeader';
-import { AttendanceTable, TeacherAttendanceBadge } from './attendanceTable';
-import { AttendanceItem, AttendanceTeacherItem } from './attendanceTable';
-
+import { AttendanceTable } from './attendanceTable';
+import {
+  AttendanceClassOverview,
+  // AttendanceTeacherItem,
+} from '@/modules/attendance/types';
 export function AttendanceTableSection({
   classAttendance,
 }: {
-  classAttendance: AttendanceItem[];
+  classAttendance: AttendanceClassOverview[];
 }) {
   return (
     <TableSection>
@@ -20,35 +22,35 @@ export function AttendanceTableSection({
   );
 }
 
-export function TeacherAttendanceSection({
-  teacherAttendance,
-}: {
-  teacherAttendance: AttendanceTeacherItem[];
-}) {
-  return (
-    <TableSection>
-      <TableSectionHeader
-        title="Teacher Attendance"
-        description="Overview of teacher self-attendance and pending teacher records."
-      />
+// export function TeacherAttendanceSection({
+//   teacherAttendance,
+// }: {
+//   teacherAttendance: AttendanceTeacherItem[];
+// }) {
+//   return (
+//     <TableSection>
+//       <TableSectionHeader
+//         title="Teacher Attendance"
+//         description="Overview of teacher self-attendance and pending teacher records."
+//       />
 
-      <div className="divide-y divide-[#eee7c8]">
-        {teacherAttendance.map((record) => (
-          <div
-            key={record.id}
-            className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between"
-          >
-            <div>
-              <p className="font-medium text-[#2f3303]">{record.teacher}</p>
-              <p className="text-sm text-[#68654f]">
-                Check-in time: {record.checkIn}
-              </p>
-            </div>
+//       <div className="divide-y divide-[#eee7c8]">
+//         {teacherAttendance.map((record) => (
+//           <div
+//             key={record.id}
+//             className="flex flex-col gap-3 p-4 md:flex-row md:items-center md:justify-between"
+//           >
+//             <div>
+//               <p className="font-medium text-[#2f3303]">{record.teacher}</p>
+//               <p className="text-sm text-[#68654f]">
+//                 Check-in time: {record.checkIn}
+//               </p>
+//             </div>
 
-            <TeacherAttendanceBadge status={record.status} />
-          </div>
-        ))}
-      </div>
-    </TableSection>
-  );
-}
+//             <TeacherAttendanceBadge status={record.status} />
+//           </div>
+//         ))}
+//       </div>
+//     </TableSection>
+//   );
+// }

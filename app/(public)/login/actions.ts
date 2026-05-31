@@ -28,6 +28,7 @@ export async function loginAction(
 
   const email = String(formData.get('email') || '');
   const password = String(formData.get('password') || '');
+  let dashboardPath = '/login';
 
   try {
     const res = await axios.post<LoginResponse>(
@@ -41,6 +42,7 @@ export async function loginAction(
     );
 
     const data = res.data;
+    console.log('Login response data:', data);
 
     if (!data.accessToken || !data.user?.role) {
       return {
@@ -65,6 +67,7 @@ export async function loginAction(
       path: '/',
       maxAge: 60 * 60 * 24 * 7,
     });
+    dashboardPath = getDashboardPath(data.user.role);
   } catch (error) {
     if (error instanceof AxiosError) {
       return {
@@ -76,6 +79,5 @@ export async function loginAction(
       error: 'Something went wrong during login',
     };
   }
-
-  redirect(getDashboardPath((await cookies()).get('role')?.value as Role));
+  redirect(dashboardPath);
 }

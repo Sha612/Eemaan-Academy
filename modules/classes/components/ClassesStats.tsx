@@ -1,10 +1,18 @@
-import { StatsCard } from '@/components/shared/StatsCard';
+import { StatsCard } from '@/components/shared/StatsCard'
 
 type ClassesStatsProps = {
-  totalClasses: number;
-};
+  totalClasses: number
+  activeClasses?: number
+  assignedTeachers?: number
+  totalEnrollments?: number
+}
 
-export function ClassesStats({ totalClasses }: ClassesStatsProps) {
+export function ClassesStats({
+  totalClasses,
+  activeClasses = 0,
+  assignedTeachers = 0,
+  totalEnrollments = 0,
+}: ClassesStatsProps) {
   const stats = [
     {
       title: 'Total Classes',
@@ -12,23 +20,27 @@ export function ClassesStats({ totalClasses }: ClassesStatsProps) {
     },
     {
       title: 'Active Classes',
-      value: '3',
+      value: activeClasses.toString(),
     },
     {
       title: 'Assigned Teachers',
-      value: '3',
+      value: assignedTeachers.toString(),
     },
     {
       title: 'Total Enrollments',
-      value: '30',
+      value: totalEnrollments.toString(),
     },
-  ];
+  ]
 
   return (
     <section className="grid gap-4 md:grid-cols-4">
       {stats.map((stat) => (
-        <StatsCard key={stat.title} title={stat.title} value={stat.value} />
+        <StatsCard
+          key={stat.title}
+          title={stat.title}
+          value={stat.value}
+        />
       ))}
     </section>
-  );
+  )
 }
