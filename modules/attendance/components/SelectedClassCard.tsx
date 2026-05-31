@@ -1,4 +1,4 @@
-import type { AttendanceClass } from '@/lib/attendance/attendance-types';
+import type { AttendanceClass } from '@/modules/attendance/types';
 
 type SelectedClassCardProps = {
   selectedClass?: AttendanceClass;

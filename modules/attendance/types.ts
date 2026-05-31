@@ -1,6 +1,11 @@
 import { LucideIcon } from 'lucide-react';
 import { ClassResponse } from '@/modules/classes/types';
-
+export type AttendanceClass = {
+  id: string;
+  name: string;
+  teacher: string;
+  schedule: string;
+};
 export type AttendanceStatus =
   | 'present'
   | 'absent'

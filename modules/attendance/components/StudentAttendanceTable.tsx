@@ -1,12 +1,15 @@
 import { AttendanceStatusButton } from './AttendanceStatusButton';
-import { getInitials } from '@/lib/attendance/attendance-utils';
+
 import type {
   AttendanceRecord,
   AttendanceStatus,
   AttendanceStatusOption,
-  Student,
-} from '@/lib/attendance/attendance-types';
-
+} from '@/modules/attendance/types';
+type Student = {
+  id: number;
+  name: string;
+  rollNumber: string;
+};
 type StudentAttendanceTableProps = {
   students: Student[];
   attendance: AttendanceRecord;
@@ -14,7 +17,14 @@ type StudentAttendanceTableProps = {
   remainingCount: number;
   onUpdateAttendance: (studentId: number, status: AttendanceStatus) => void;
 };
-
+function getInitials(name: string) {
+  return name
+    .split(' ')
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 2)
+    .toUpperCase();
+}
 export function StudentAttendanceTable({
   students,
   attendance,
