@@ -139,7 +139,7 @@ export default async function AnnouncementsPage() {
                   <td className="px-5 py-4 text-[#6f6a4d]">
                     {announcement.class
                       ? `${announcement.class.name}`
-                      : announcement.type === 'class'
+                      : announcement.type === 'class-specific'
                         ? 'Class not linked'
                         : 'Not required'}
                   </td>

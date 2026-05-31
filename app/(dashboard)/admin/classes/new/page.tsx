@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import { ArrowLeft, BookOpen, CalendarDays, Users } from 'lucide-react';
 import { createClassAction } from './actions';
-import { serverApi } from '@/lib/server-api';
 import { getTeachers } from '@/modules/teachers/services';
 
 export default async function NewClassPage() {

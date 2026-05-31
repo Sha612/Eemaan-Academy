@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { ArrowLeft, UserCheck } from 'lucide-react';
+import { UserCheck } from 'lucide-react';
 import { assignTeacherAction } from '@/app/(dashboard)/admin/classes/assign-teacher/actions';
 import { Button } from '@/components/ui/button';
 import {

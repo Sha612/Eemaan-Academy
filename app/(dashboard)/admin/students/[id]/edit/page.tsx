@@ -16,8 +16,11 @@ export default async function EditStudentPage({
 }: EditStudentPageProps) {
   const { id } = await params;
 
+  let student: StudentResponse;
+  let studentEnrollments: StudentEnrollment[];
+
   try {
-    const [student, enrollments] = await Promise.all([
+    const [studentResponse, enrollments] = await Promise.all([
       serverApi<StudentResponse>(`/students/${id}`, {
         method: 'GET',
       }),
@@ -26,23 +29,25 @@ export default async function EditStudentPage({
       }),
     ]);
 
-    const studentEnrollments = enrollments.filter(
-      (enrollment) => enrollment.student.id === Number(id),
-    );
+    student = studentResponse;
 
-    return (
-      <PageShell>
-        <PageHeader
-          label="Admin Panel"
-          title="Edit Student Profile"
-          backHref="/admin/students"
-          description="Update student profile, login details, and class enrollment status.
-"
-        />
-        <EditStudentForm student={student} enrollments={studentEnrollments} />
-      </PageShell>
+    studentEnrollments = enrollments.filter(
+      (enrollment) => enrollment.student.id === Number(id),
     );
   } catch {
     notFound();
   }
+
+  return (
+    <PageShell>
+      <PageHeader
+        label="Admin Panel"
+        title="Edit Student Profile"
+        backHref="/admin/students"
+        description="Update student profile, login details, and class enrollment status."
+      />
+
+      <EditStudentForm student={student} enrollments={studentEnrollments} />
+    </PageShell>
+  );
 }

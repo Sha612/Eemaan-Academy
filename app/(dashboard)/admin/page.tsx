@@ -5,7 +5,6 @@ import {
   BookOpen,
   CalendarDays,
   ClipboardCheck,
-  FileText,
   FolderPlus,
   GraduationCap,
   Megaphone,
@@ -27,7 +26,6 @@ import { getRecentActivities } from '@/modules/dashboard/activity';
 
 import type {
   DashboardAction,
-  DashboardActivity,
   DashboardReplacementAccess,
   DashboardStat,
   DashboardTodayClass,

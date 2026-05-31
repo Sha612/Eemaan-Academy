@@ -11,18 +11,18 @@ type EditClassPageProps = {
 
 export default async function EditClassPage({ params }: EditClassPageProps) {
   const { id } = await params;
+  let classItem;
 
   try {
-    const classItem = await serverApi<ClassResponse>(`/classes/${id}`, {
+    classItem = await serverApi<ClassResponse>(`/classes/${id}`, {
       method: 'GET',
     });
-
-    return (
-      <div className="mx-auto max-w-4xl space-y-6">
-        <EditClassForm classItem={classItem} />
-      </div>
-    );
   } catch {
     notFound();
   }
+  return (
+    <div className="mx-auto max-w-4xl space-y-6">
+      <EditClassForm classItem={classItem} />
+    </div>
+  );
 }

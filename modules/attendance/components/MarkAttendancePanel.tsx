@@ -86,6 +86,7 @@ export function MarkAttendancePanel({
     const absentCount = values.filter((status) => status === 'absent').length;
     const lateCount = values.filter((status) => status === 'late').length;
     const markedCount = values.length;
+    const excusedCount = values.filter((status) => status === 'excused').length;
     const remainingCount = Math.max(students.length - markedCount, 0);
 
     const progressPercentage =
@@ -97,6 +98,7 @@ export function MarkAttendancePanel({
       presentCount,
       absentCount,
       lateCount,
+      excusedCount,
       markedCount,
       remainingCount,
       progressPercentage,
@@ -128,6 +130,7 @@ export function MarkAttendancePanel({
         presentCount={stats.presentCount}
         absentCount={stats.absentCount}
         lateCount={stats.lateCount}
+        excusedCount={stats.excusedCount}
         markedCount={stats.markedCount}
         progressPercentage={stats.progressPercentage}
       />

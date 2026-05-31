@@ -8,7 +8,7 @@ export async function getRecentActivities(): Promise<
   DashboardActivity[]
 > {
   try{
-    const [studentsResponse, teachersResponse, classesResponse] =
+    const [studentsResponse, teachersResponse] =
     await Promise.all([
       getStudents(),
       getTeachers(),

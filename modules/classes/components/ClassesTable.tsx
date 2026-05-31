@@ -1,4 +1,4 @@
-import { BookOpen, MoreHorizontal, Pencil, UserRoundCheck, Users } from 'lucide-react';
+import { BookOpen, Pencil, UserRoundCheck, Users } from 'lucide-react';
 import type { ClassResponse } from '../types';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';

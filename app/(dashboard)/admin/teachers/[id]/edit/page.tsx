@@ -17,8 +17,11 @@ export default async function EditTeacherPage({
 }: EditTeacherPageProps) {
   const { id } = await params;
 
+  let teacher: TeacherResponse;
+  let assignedClasses: ClassResponse[];
+
   try {
-    const [teacher, classesResponse] = await Promise.all([
+    const [teacherResponse, classesResponse] = await Promise.all([
       serverApi<TeacherResponse>(`/teachers/${id}`, {
         method: 'GET',
       }),
@@ -27,23 +30,25 @@ export default async function EditTeacherPage({
       }),
     ]);
 
-    const assignedClasses = classesResponse.data.filter(
-      (classItem) => classItem.teacher?.id === Number(id),
-    );
+    teacher = teacherResponse;
 
-    return (
-      <PageShell>
-        <PageHeader
-          label="Admin Panel"
-          title="Edit Teacher Profile"
-          backHref="/admin/teachers"
-          description="Update teacher profile, login details, and class assignment.
-"
-        />
-        <EditTeacherForm teacher={teacher} assignedClasses={assignedClasses} />
-      </PageShell>
+    assignedClasses = classesResponse.data.filter(
+      (classItem) => classItem.teacher?.id === Number(id),
     );
   } catch {
     notFound();
   }
+
+  return (
+    <PageShell>
+      <PageHeader
+        label="Admin Panel"
+        title="Edit Teacher Profile"
+        backHref="/admin/teachers"
+        description="Update teacher profile, login details, and class assignment."
+      />
+
+      <EditTeacherForm teacher={teacher} assignedClasses={assignedClasses} />
+    </PageShell>
+  );
 }

@@ -29,3 +29,13 @@ export interface AnnouncementResponse {
   createdAt: string;
   updatedAt: string;
 }
+
+export type PaginatedAnnouncementsResponse = {
+  data: AnnouncementResponse[];
+  meta: {
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  };
+};
